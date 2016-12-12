@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,18 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BoardTest {
 
     private Board board = new Board();
-    private Board numberedBoard() {
-        board.markCell(0, "1");
-        board.markCell(1, "2");
-        board.markCell(2, "3");
-        board.markCell(3, "4");
-        board.markCell(4, "5");
-        board.markCell(5, "6");
-        board.markCell(6, "7");
-        board.markCell(7, "8");
-        board.markCell(8, "9");
-        return board;
-    }
+    private List<String> numberedBoard = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
 
     @Test
     public void knowsANewBoardGridHasNineCells() {
@@ -31,30 +20,30 @@ public class BoardTest {
 
     @Test
     public void knowsANewBoardGridIsEmpty() {
-        assertTrue(board.isEmpty());
+        List<String> emptyBoard = Arrays.asList("", "", "", "", "", "", "", "", "");
+        assertTrue(board.isEmpty(emptyBoard));
     }
 
     @Test
     public void marksACell() {
-        List<String> currentGrid = Arrays.asList(
+        List<String> markedBoard = Arrays.asList(
                 "x", "", "",
                 "", "", "",
                 "", "", "");
-        ArrayList markedBoard = new ArrayList(currentGrid);
         assertEquals(markedBoard, board.markCell(0, "x"));
     }
 
     @Test
     public void knowsAMarkedBoardIsNotEmpty() {
-        board.markCell(0, "x");
-        assertFalse(board.isEmpty());
+        List<String> markedBoard = Arrays.asList("x", "", "", "", "", "", "", "", "");
+        assertFalse(board.isEmpty(markedBoard));
     }
 
     @Test
     public void knowsIfACellIsEmpty() {
-        board.markCell(0, "x");
-        assertFalse(board.isAvailableCell(0));
-        assertTrue(board.isAvailableCell(1));
+        List<String> markedBoard = Arrays.asList("x", "", "", "", "", "", "", "", "");
+        assertFalse(board.isAvailableCell(markedBoard, 0));
+        assertTrue(board.isAvailableCell(markedBoard, 1));
     }
 
     @Test
@@ -64,7 +53,7 @@ public class BoardTest {
                 Arrays.asList("4", "5", "6"),
                 Arrays.asList("7", "8", "9")
         );
-        assertEquals(rows, numberedBoard().getRows());
+        assertEquals(rows, board.getRows(numberedBoard));
     }
 
     @Test
@@ -74,7 +63,7 @@ public class BoardTest {
                 Arrays.asList("2", "5", "8"),
                 Arrays.asList("3", "6", "9")
         );
-        assertEquals(columns, numberedBoard().getColumns());
+        assertEquals(columns, board.getColumns(numberedBoard));
     }
 
     @Test
@@ -83,66 +72,44 @@ public class BoardTest {
                 Arrays.asList("1", "5", "9"),
                 Arrays.asList("3", "5", "7")
         );
-        assertEquals(diagonals, numberedBoard().getDiagonals());
+        assertEquals(diagonals, board.getDiagonals(numberedBoard));
     }
 
     @Test
     public void recognisesARowWin() {
-        board.markCell(0, "x");
-        board.markCell(1, "x");
-        board.markCell(2, "x");
-        assertTrue(board.win());
+        List<String> markedBoard = Arrays.asList("x", "x", "x", "", "", "", "", "", "");
+        assertTrue(board.win(markedBoard));
     }
 
     @Test
     public void recognisesANonWin() {
-        board.markCell(0, "x");
-        board.markCell(2, "x");
-        assertFalse(board.win());
-        board.markCell(0, "x");
-        board.markCell(1, "o");
-        board.markCell(2, "x");
-        assertFalse(board.win());
+        List<String> markedBoard = Arrays.asList("x", "x", "", "", "", "", "", "", "");
+        assertFalse(board.win(markedBoard));
+        List<String> markedBoardTwo = Arrays.asList("x", "o", "x", "", "", "", "", "", "");
+        assertFalse(board.win(markedBoardTwo));
     }
 
     @Test
     public void recognisesAColumnWin() {
-        board.markCell(0, "o");
-        board.markCell(3, "o");
-        board.markCell(6, "o");
-        assertTrue(board.win());
+        List<String> markedBoard = Arrays.asList("x", "", "", "x", "", "", "x", "", "");
+        assertTrue(board.win(markedBoard));
     }
 
     @Test
     public void recognisesADiagonalWin() {
-        board.markCell(0, "o");
-        board.markCell(4, "o");
-        board.markCell(8, "o");
-        assertTrue(board.win());
+        List<String> markedBoard = Arrays.asList("x", "", "", "", "x", "", "", "", "x");
+        assertTrue(board.win(markedBoard));
     }
 
     @Test
     public void recognisesADraw() {
-        board.markCell(0, "x");
-        board.markCell(1, "o");
-        board.markCell(2, "x");
-        board.markCell(3, "x");
-        board.markCell(4, "o");
-        board.markCell(5, "x");
-        board.markCell(6, "o");
-        board.markCell(7, "x");
-        board.markCell(8, "o");
-        assertTrue(board.draw());
+        List<String> markedBoard = Arrays.asList("x", "o", "x", "x", "o", "x", "o", "x", "o");
+        assertEquals(true, board.draw(markedBoard));
     }
 
     @Test
     public void recognisesANonDraw() {
-        board.markCell(0, "x");
-        board.markCell(1, "o");
-        board.markCell(2, "x");
-        board.markCell(3, "x");
-        board.markCell(5, "x");
-        board.markCell(6, "o");
-        assertFalse(board.draw());
+        List<String> markedBoard = Arrays.asList("x", "o", "x", "x", "o", "x", "", "", "");
+        assertFalse(board.draw(markedBoard));
     }
 }

@@ -10,8 +10,7 @@ public class Board {
         return cells;
     }
 
-    public boolean isEmpty() {
-       List<String> currentBoard = getCells();
+    public boolean isEmpty(List<String> currentBoard) {
        for (int i = 0; i < currentBoard.size(); i++) {
            if (isNotEmptyCell(currentBoard, i)) {
                return false;
@@ -29,14 +28,13 @@ public class Board {
         return currentGrid;
     }
 
-    public boolean isAvailableCell(int index) {
-        List<String> currentGrid = getCells();
-        String cell = (String) currentGrid.get(index);
+    public boolean isAvailableCell(List<String> currentCells, int index) {
+        String cell = currentCells.get(index);
         return cell.isEmpty();
     }
 
-    public boolean win() {
-        List<List<String>> sequences = getSequences();
+    public boolean win(List<String> currentBoard) {
+        List<List<String>> sequences = getSequences(currentBoard);
         if (allMarked(sequences)) {
             return true;
         } else {
@@ -44,35 +42,34 @@ public class Board {
         }
     }
 
-    public boolean draw() {
-        List<String> currentBoard = getCells();
+    public boolean draw(List<String> currentBoard) {
         for (int i = 0; i < currentBoard.size(); i++) {
-            if (isAvailableCell(i)) {
+            if (isAvailableCell(currentBoard, i)) {
                 return false;
             }
         } return true;
     }
 
-    public List<List<String>> getRows() {
+    public List<List<String>> getRows(List<String> currentBoard) {
         List<List<String>> rows = new ArrayList<List<String>>();
-        rows.add(getCells().subList(0, 3));
-        rows.add(getCells().subList(3, 6));
-        rows.add(getCells().subList(6, 9));
+        rows.add(currentBoard.subList(0, 3));
+        rows.add(currentBoard.subList(3, 6));
+        rows.add(currentBoard.subList(6, 9));
         return rows;
     }
 
-    public List<List<String>> getColumns() {
+    public List<List<String>> getColumns(List<String> currentBoard) {
         List<List<String>> columns = new ArrayList<List<String>>();
-        columns.add(Arrays.asList(getCells().get(0), getCells().get(3), getCells().get(6)));
-        columns.add(Arrays.asList(getCells().get(1), getCells().get(4), getCells().get(7)));
-        columns.add(Arrays.asList(getCells().get(2), getCells().get(5), getCells().get(8)));
+        columns.add(Arrays.asList(currentBoard.get(0), currentBoard.get(3), currentBoard.get(6)));
+        columns.add(Arrays.asList(currentBoard.get(1), currentBoard.get(4), currentBoard.get(7)));
+        columns.add(Arrays.asList(currentBoard.get(2), currentBoard.get(5), currentBoard.get(8)));
         return columns;
     }
 
-    public List<List<String>> getDiagonals() {
+    public List<List<String>> getDiagonals(List<String> currentBoard) {
         List<List<String>> diagonals = new ArrayList<List<String>>();
-        diagonals.add(Arrays.asList(getCells().get(0), getCells().get(4), getCells().get(8)));
-        diagonals.add(Arrays.asList(getCells().get(2), getCells().get(4), getCells().get(6)));
+        diagonals.add(Arrays.asList(currentBoard.get(0), currentBoard.get(4), currentBoard.get(8)));
+        diagonals.add(Arrays.asList(currentBoard.get(2), currentBoard.get(4), currentBoard.get(6)));
         return diagonals;
     }
 
@@ -89,11 +86,11 @@ public class Board {
         return Arrays.asList("o", "o", "o");
     }
 
-    private List<List<String>> getSequences(){
+    private List<List<String>> getSequences(List<String> currentBoard){
         List<List<String>> sequences = new ArrayList<List<String>>();
-        sequences.addAll(getRows());
-        sequences.addAll(getColumns());
-        sequences.addAll(getDiagonals());
+        sequences.addAll(getRows(currentBoard));
+        sequences.addAll(getColumns(currentBoard));
+        sequences.addAll(getDiagonals(currentBoard));
         return sequences;
     }
 
