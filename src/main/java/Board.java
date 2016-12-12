@@ -10,15 +10,17 @@ public class Board {
         return cells;
     }
 
-    public boolean gridIsEmpty() {
+    public boolean isEmpty() {
        List<String> currentBoard = getCells();
        for (int i = 0; i < currentBoard.size(); i++) {
-           if (currentBoard.get(i) != "") {
+           if (isNotEmptyCell(currentBoard, i)) {
                return false;
-           } else {
-               continue;
            }
        } return true;
+    }
+
+    private boolean isNotEmptyCell(List<String> currentBoard, int i) {
+        return currentBoard.get(i) != "";
     }
 
     public List<String> markCell(int index, String marker) {
@@ -27,7 +29,7 @@ public class Board {
         return currentGrid;
     }
 
-    public boolean availableCell(int index) {
+    public boolean isAvailableCell(int index) {
         List<String> currentGrid = getCells();
         String cell = (String) currentGrid.get(index);
         return cell.isEmpty();
@@ -45,10 +47,8 @@ public class Board {
     public boolean draw() {
         List<String> currentBoard = getCells();
         for (int i = 0; i < currentBoard.size(); i++) {
-            if (currentBoard.get(i) == "") {
+            if (isAvailableCell(i)) {
                 return false;
-            } else {
-                continue;
             }
         } return true;
     }
@@ -77,21 +77,16 @@ public class Board {
     }
 
     private boolean allMarked(List<List<String>> sequences) {
-        if (sequences.contains(markedSequenceO()) || sequences.contains(markedSequenceX())){
-            return true;
-        } else {
-            return false;
-        }
+        return (sequences.contains(markedSequenceNought()) ||
+                sequences.contains(markedSequenceCross()));
     }
 
-    private List<String> markedSequenceX() {
-        List<String> markedSequenceX = Arrays.asList("x", "x", "x");
-        return markedSequenceX;
+    private List<String> markedSequenceCross() {
+        return Arrays.asList("x", "x", "x");
     }
 
-    private List<String> markedSequenceO() {
-        List<String> markedSequenceO = Arrays.asList("o", "o", "o");
-        return markedSequenceO;
+    private List<String> markedSequenceNought() {
+        return Arrays.asList("o", "o", "o");
     }
 
     private List<List<String>> getSequences(){

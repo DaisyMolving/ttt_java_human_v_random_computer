@@ -31,7 +31,7 @@ public class BoardTest {
 
     @Test
     public void knowsANewBoardGridIsEmpty() {
-        assertTrue(board.gridIsEmpty());
+        assertTrue(board.isEmpty());
     }
 
     @Test
@@ -47,14 +47,14 @@ public class BoardTest {
     @Test
     public void knowsAMarkedBoardIsNotEmpty() {
         board.markCell(0, "x");
-        assertFalse(board.gridIsEmpty());
+        assertFalse(board.isEmpty());
     }
 
     @Test
     public void knowsIfACellIsEmpty() {
         board.markCell(0, "x");
-        assertFalse(board.availableCell(0));
-        assertTrue(board.availableCell(1));
+        assertFalse(board.isAvailableCell(0));
+        assertTrue(board.isAvailableCell(1));
     }
 
     @Test
