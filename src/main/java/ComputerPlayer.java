@@ -1,5 +1,5 @@
 import java.util.Random;
-public class ComputerPlayer {
+public class ComputerPlayer implements Player{
     private String marker = "";
     private String name = "Computer";
 
@@ -15,7 +15,7 @@ public class ComputerPlayer {
         return String.valueOf(randInt(0, 8));
     }
 
-    private static int randInt(int min, int max) {
+    private int randInt(int min, int max) {
         Random rand = new Random();
         int randomNumber = rand.nextInt((max - min) + 1) + min;
         return randomNumber;
