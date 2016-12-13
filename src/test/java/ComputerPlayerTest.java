@@ -16,4 +16,10 @@ public class ComputerPlayerTest {
         ComputerPlayer computerPlayer = new ComputerPlayer();
         assertEquals("Computer", computerPlayer.getName());
     }
+
+    @Test
+    public void computerMoveGeneratesRandomCellNumber() {
+        ComputerPlayer computerPlayer = new ComputerPlayer();
+        assertTrue(computerPlayer.move().matches("[0-8]"));
+    }
 }
