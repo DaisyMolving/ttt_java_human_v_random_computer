@@ -1,3 +1,5 @@
+import java.util.List;
+
 public interface Player {
-    public String move();
+    public List<String> makeMove(Board currentBoard);
 }
