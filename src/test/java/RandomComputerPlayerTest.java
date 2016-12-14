@@ -11,11 +11,6 @@ public class RandomComputerPlayerTest {
     private RandomComputerPlayer randomComputerPlayer = new RandomComputerPlayer("Computer", "o");
 
     @Test
-    public void computerPlayerHasEmptyMarkerUponInitialization() {
-        assertTrue(randomComputerPlayer.getMarker().isEmpty());
-    }
-
-    @Test
     public void computerSetsNameUponInitialization() {
         assertEquals("Computer", randomComputerPlayer.getName());
     }

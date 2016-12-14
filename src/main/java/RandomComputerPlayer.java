@@ -3,13 +3,13 @@ import java.util.Random;
 
 public class RandomComputerPlayer implements Player {
 
+    private String marker;
+    private String name;
+
     public RandomComputerPlayer(String name, String marker) {
         this.name = name;
         this.marker = marker;
     }
-
-    private String marker = "";
-    private String name = "";
 
     public String getMarker(){
         return marker;
@@ -30,7 +30,6 @@ public class RandomComputerPlayer implements Player {
 
     private int generateWithinRange(int min, int max) {
         Random rand = new Random();
-        int randomNumber = rand.nextInt((max - min) + 1) + min;
-        return randomNumber;
+        return rand.nextInt((max - min) + 1) + min;
     }
 }
