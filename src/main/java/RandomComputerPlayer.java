@@ -1,10 +1,15 @@
 import java.util.List;
 import java.util.Random;
 
-public class RandomComputerPlayer implements Player{
+public class RandomComputerPlayer implements Player {
+
+    public RandomComputerPlayer(String name, String marker) {
+        this.name = name;
+        this.marker = marker;
+    }
 
     private String marker = "";
-    private String name = "Computer";
+    private String name = "";
 
     public String getMarker(){
         return marker;
@@ -12,10 +17,6 @@ public class RandomComputerPlayer implements Player{
 
     public String getName(){
         return name;
-    }
-
-    public void build(String marker) {
-        this.marker = marker;
     }
 
     public List<String> makeMove(Board currentBoard) {

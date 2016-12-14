@@ -2,13 +2,13 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class RandomComputerPlayerTest {
 
-    private RandomComputerPlayer randomComputerPlayer = new RandomComputerPlayer();
+    private RandomComputerPlayer randomComputerPlayer = new RandomComputerPlayer("Computer", "o");
 
     @Test
     public void computerPlayerHasEmptyMarkerUponInitialization() {
@@ -16,13 +16,12 @@ public class RandomComputerPlayerTest {
     }
 
     @Test
-    public void computerPlayerHasSetNameUponInitialization() {
+    public void computerSetsNameUponInitialization() {
         assertEquals("Computer", randomComputerPlayer.getName());
     }
 
     @Test
     public void computerSetsMarkerUponInitialization() {
-        randomComputerPlayer.build("o");
         assertEquals("o", randomComputerPlayer.getMarker());
     }
 
@@ -35,7 +34,6 @@ public class RandomComputerPlayerTest {
 
     @Test
     public void computerMakesMoveOnBoardWithRandomCellWithinGivenRange() {
-        randomComputerPlayer.build("o");
         Board emptyBoard = new Board();
         List<String> movedOnBoard = randomComputerPlayer.makeMove(emptyBoard);
         assertFalse(movedOnBoard.isEmpty());
