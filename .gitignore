@@ -1,6 +1,2 @@
-*.swp
-*.swo
-*.xml
-*.idea
-
-/out
+.idea/
+out/
