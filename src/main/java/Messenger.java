@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Messenger {
 
     public String welcomePlayers() {
@@ -10,5 +12,36 @@ public class Messenger {
 
     public String invalidGameTypeMessage() {
         return "That is an invalid input. Please select option a or b:\n";
+    }
+
+    public String askPlayerForTurnInput(String playerNumber, String marker) {
+        return "Player " + playerNumber + ", with "+ marker + ", please select a number from 1 - 9 to mark a corresponding cell on the grid\n";
+    }
+
+    public String invalidTurnMessage() {
+        return "That is an invalid input. Please select a number from 1 - 9 corresponding to an available cell";
+    }
+
+    public String winnerMessage(String playerNumber) {
+        return "Player " + playerNumber + " wins!";
+    }
+
+    public String drawMessage() {
+        return "It's a draw!";
+    }
+
+    public String formatBoard(List<String> currentBoard) {
+        String formattedBoard = "";
+        for (int i = 0; i < currentBoard.size(); i++) {
+            if (endOfRow(i)) {
+                formattedBoard = formattedBoard.concat(currentBoard.get(i)).concat("\n");
+            } else {
+                formattedBoard = formattedBoard.concat(currentBoard.get(i)).concat(" ");
+            }
+        } return formattedBoard;
+    }
+
+    private boolean endOfRow(int index) {
+        return ((index + 1) % 3 == 0);
     }
 }
