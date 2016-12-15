@@ -30,7 +30,19 @@ public class Messenger {
         return "It's a draw!";
     }
 
-    public String formatBoard(List<String> currentBoard) {
+    public String setUpBoard(List<String> currentBoard){
+        return formatBoard(numberBoard(currentBoard));
+    }
+
+    private List<String> numberBoard(List<String> currentBoard) {
+        for (int i = 0; i < currentBoard.size(); i ++) {
+            if (currentBoard.get(i) == "") {
+                currentBoard.set(i, String.valueOf(i + 1));
+            }
+        } return currentBoard;
+    }
+
+    private String formatBoard(List<String> currentBoard) {
         String formattedBoard = "";
         for (int i = 0; i < currentBoard.size(); i++) {
             if (endOfRow(i)) {
@@ -44,4 +56,5 @@ public class Messenger {
     private boolean endOfRow(int index) {
         return ((index + 1) % 3 == 0);
     }
+
 }

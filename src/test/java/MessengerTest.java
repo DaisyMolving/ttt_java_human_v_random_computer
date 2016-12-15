@@ -51,10 +51,8 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerCorrectlyFormatsCurrentBoardIntoRows() {
-        List<String> currentBoard = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
-        assertEquals("1 2 3\n4 5 6\n7 8 9\n", messenger.formatBoard(currentBoard));
-        List<String> markedBoard = Arrays.asList("x", "o", "x", "x", "o", "x", "o", "x", "o");
-        assertEquals("x o x\nx o x\no x o\n", messenger.formatBoard(markedBoard));
+        List<String> currentBoard = Arrays.asList("", "o", "", "", "", "", "x", "", "");
+        assertEquals("1 o 3\n4 5 6\nx 8 9\n", messenger.setUpBoard(currentBoard));
     }
 
 }
