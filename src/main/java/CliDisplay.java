@@ -1,14 +1,14 @@
 import java.util.Scanner;
 
-public class CliDisplay {
+public class CliDisplay implements Display {
 
-    public void printMessage(String message) {
+    public void sendMessageToDisplay(String message) {
        System.out.print(message);
     }
 
-    public String getResponse(String message) {
+    public String getResponse(String request) {
         Scanner userInput = new Scanner(System.in);
-        System.out.print(message);
+        System.out.print(request);
         return userInput.nextLine();
     }
 
