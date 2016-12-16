@@ -2,13 +2,13 @@ import java.util.Scanner;
 
 public class CliDisplay implements Display {
 
-    public void sendMessageToDisplay(String message) {
+    public void sendToTheDisplay(String message) {
        System.out.print(message);
     }
 
     public String getResponse(String request) {
         Scanner userInput = new Scanner(System.in);
-        System.out.print(request);
+        sendToTheDisplay(request);
         return userInput.nextLine();
     }
 
