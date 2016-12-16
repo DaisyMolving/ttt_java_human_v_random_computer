@@ -57,4 +57,21 @@ public class Messenger {
         return ((index + 1) % 3 == 0);
     }
 
+    public Pair requestGameType(String option) {
+        if (option == "a") {
+            return new Pair("ok", "");
+        } else if (option == "b") {
+            return new Pair("ok", "");
+        } else {
+            return new Pair("invalid", invalidGameTypeMessage());
+        }
+    }
+
+    public Pair requestTurn(String option) {
+        if (option.matches("[1-9]")) {
+            return new Pair("ok", "");
+        } else {
+            return new Pair("invalid", invalidTurnMessage());
+        }
+    }
 }

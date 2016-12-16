@@ -55,4 +55,19 @@ public class MessengerTest {
         assertEquals("1 o 3\n4 5 6\nx 8 9\n", messenger.setUpBoard(currentBoard));
     }
 
+    @Test
+    public void thatMessengerReturnsCorrectMessagesforGameRequest() {
+        assertEquals("ok", messenger.requestGameType("a").first);
+        assertEquals("ok", messenger.requestGameType("b").first);
+        assertEquals("invalid", messenger.requestGameType("z").first);
+        assertEquals("invalid", messenger.requestGameType("-123").first);
+    }
+
+    @Test
+    public void thatMessengerReturnsCorrectMessagesforTurnRequest() {
+        assertEquals("ok", messenger.requestTurn("1").first);
+        assertEquals("ok", messenger.requestTurn("7").first);
+        assertEquals("invalid", messenger.requestTurn("11").first);
+        assertEquals("invalid", messenger.requestTurn("-123").first);
+    }
 }
