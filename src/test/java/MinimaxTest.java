@@ -21,4 +21,12 @@ public class MinimaxTest {
         assertEquals(0, maximisingResult);
         assertEquals(0, minimisingResult);
     }
+
+    @Test
+    public void scoresFutureWinAsOne() {
+        Board futureWinningBoard = new Board(Arrays.asList("", "o", "o", "x", "x", "o", "x", "o", "x"));
+        int maximisingResult = new Minimax().minimaxValue(futureWinningBoard, "o", true);
+        assertEquals(1, maximisingResult);
+    }
+
 }
