@@ -19,7 +19,7 @@ public class RandomComputerPlayer implements Player {
         return name;
     }
 
-    public List<String> makeMove(Board currentBoard) {
+    public Board makeMove(Board currentBoard) {
         int cellPosition = getCellPosition(0, 8);
         return currentBoard.markCell(cellPosition, getMarker());
     }

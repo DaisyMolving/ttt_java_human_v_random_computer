@@ -18,9 +18,8 @@ public class HumanPlayer implements Player {
         return marker;
     }
 
-    public List<String> makeMove(Board currentBoard) {
-        int cellPosition = getCellPosition("1");
-        return currentBoard.markCell(cellPosition, getMarker());
+    public Board makeMove(Board currentBoard) {
+        return currentBoard.markCell(getCellPosition("1"), getMarker());
     }
 
     public Integer getCellPosition(String cellPosition) {

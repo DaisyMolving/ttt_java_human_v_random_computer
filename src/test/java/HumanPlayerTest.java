@@ -1,7 +1,6 @@
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,9 +22,9 @@ public class HumanPlayerTest {
 
     @Test
     public void humanPlayerMakesMove() {
-        Board board = new Board();
-        List<String> equivalentBoard = Arrays.asList("x", "", "", "", "", "", "", "", "");
-        List<String> movedOnBoard = humanPlayer.makeMove(board);
-        assertEquals(equivalentBoard, movedOnBoard);
+        Board emptyBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
+        Board equivalentBoard = new Board(Arrays.asList("x", "", "", "", "", "", "", "", ""));
+        Board movedOnBoard = new Board(humanPlayer.makeMove(emptyBoard).getCells());
+        assertEquals(equivalentBoard.getCells(), movedOnBoard.getCells());
     }
 }
