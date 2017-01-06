@@ -1,9 +1,8 @@
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RandomComputerPlayerTest {
@@ -29,10 +28,9 @@ public class RandomComputerPlayerTest {
 
     @Test
     public void computerMakesMoveOnBoardWithRandomCellWithinGivenRange() {
-        Board emptyBoard = new Board();
-        List<String> movedOnBoard = randomComputerPlayer.makeMove(emptyBoard);
-        assertFalse(movedOnBoard.isEmpty());
-        assertTrue(movedOnBoard.contains("o"));
+        Board emptyBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
+        Board movedOnBoard = new Board(randomComputerPlayer.makeMove(emptyBoard).getCells());
+        assertTrue(movedOnBoard.getCells().contains("o"));
     }
 
 }

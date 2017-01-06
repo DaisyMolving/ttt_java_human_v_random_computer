@@ -57,17 +57,17 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerReturnsCorrectMessagesforGameRequest() {
-        assertEquals("ok", messenger.requestGameType("a").first);
-        assertEquals("ok", messenger.requestGameType("b").first);
-        assertEquals("invalid", messenger.requestGameType("z").first);
-        assertEquals("invalid", messenger.requestGameType("-123").first);
+        assertEquals("ok", messenger.requestGameType("a").status);
+        assertEquals("ok", messenger.requestGameType("b").status);
+        assertEquals("invalid", messenger.requestGameType("z").status);
+        assertEquals("invalid", messenger.requestGameType("-123").status);
     }
 
     @Test
     public void thatMessengerReturnsCorrectMessagesforTurnRequest() {
-        assertEquals("ok", messenger.requestTurn("1").first);
-        assertEquals("ok", messenger.requestTurn("7").first);
-        assertEquals("invalid", messenger.requestTurn("11").first);
-        assertEquals("invalid", messenger.requestTurn("-123").first);
+        assertEquals("ok", messenger.requestTurn("1").status);
+        assertEquals("ok", messenger.requestTurn("7").status);
+        assertEquals("invalid", messenger.requestTurn("11").status);
+        assertEquals("invalid", messenger.requestTurn("-123").status);
     }
 }
