@@ -49,11 +49,11 @@ public class MinimaxTest {
     public void scoresFutureWinTwoMovesDownAsOne() {
         Board futureWinningBoard = new Board(Arrays.asList(
                 "", "o", "",
-                "", "x", "o",
+                "o", "x", "o",
                 "", "x", ""));
         int maximisingResult = minimax.minimaxValue(futureWinningBoard, "x", true);
         int minimisingResult = minimax.minimaxValue(futureWinningBoard, "x", false);
-        assertEquals(Arrays.asList(0, 0, -1, 0, 1), minimax.mapMinimaxValues(futureWinningBoard, "x", true));
+        assertEquals(Arrays.asList(0, 0, 1, 1), minimax.mapMinimaxValues(futureWinningBoard, "x", true));
         assertEquals(1, maximisingResult);
         assertEquals(-1, minimisingResult);
     }

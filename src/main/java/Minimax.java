@@ -14,7 +14,8 @@ public class Minimax {
     public List<Integer> mapMinimaxValues(Board board, String currentPlayerMarker, boolean maximisingPlayer) {
         List<Integer> minimaxValues = new ArrayList<Integer>();
         for (int i = 0; i < findPossibleBoards(board, currentPlayerMarker).size(); i++) {
-            minimaxValues.add(minimaxValue(findPossibleBoards(board, currentPlayerMarker).get(i), opponent(currentPlayerMarker), !maximisingPlayer));
+            int newValue = minimaxValue(findPossibleBoards(board, currentPlayerMarker).get(i), opponent(currentPlayerMarker), !maximisingPlayer);
+            minimaxValues.add(newValue);
         } return minimaxValues;
     }
 
@@ -22,9 +23,7 @@ public class Minimax {
         List<Board> possibleBoards = new ArrayList<Board>();
         for (int i = 0; i < board.getCells().size(); i++) {
             if (board.isAvailableCell(i)) {
-                List<String> markedCells = new ArrayList(board.markCell(i, currentPlayerMarker).getCells());
-                Board possibleBoard = new Board(markedCells);
-                board.markCell(i, "");
+                Board possibleBoard = board.markCell(i, currentPlayerMarker);
                 possibleBoards.add(possibleBoard);
             }
         } return possibleBoards;

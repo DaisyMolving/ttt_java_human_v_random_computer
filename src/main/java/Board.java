@@ -7,7 +7,7 @@ public class Board {
     private List<String> cells;
 
     public Board(List<String> cells) {
-        this.cells = cells;
+        this.cells = new ArrayList<String>(cells);
     }
 
     public List<String> getCells() {
@@ -27,8 +27,9 @@ public class Board {
     }
 
     public Board markCell(int index, String marker) {
-        getCells().set(index, marker);
-        return new Board(getCells());
+        Board clone = new Board(getCells());
+        clone.getCells().set(index, marker);
+        return  clone;
     }
 
     public boolean isAvailableCell(int index) {

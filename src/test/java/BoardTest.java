@@ -40,6 +40,13 @@ public class BoardTest {
     }
 
     @Test
+    public void createsNewBoardEveryTimeACellIsMarked() {
+        Board clone = emptyBoard.markCell(1, "x");
+        assertFalse(clone.isAvailableCell(1) );
+        assertTrue(emptyBoard.isAvailableCell(1) );
+    }
+
+    @Test
     public void findsBoardRows() {
         List<List<String>> rows = Arrays.asList(
                 Arrays.asList("1", "2", "3"),
