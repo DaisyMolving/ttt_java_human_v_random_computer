@@ -1,17 +1,35 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.*;
+
 public class Minimax {
 
-    public int minimaxValue(Board board, String currentPlayerMarker, boolean maximisingPlayer) {
-        if (terminal(board)) {
-            return score(board, maximisingPlayer);
-        } else if (maximisingPlayer) {
-            return findMaximum(mapMinimaxValues(board, currentPlayerMarker, maximisingPlayer));
-        } return findMinimum(mapMinimaxValues(board, currentPlayerMarker, maximisingPlayer));
+    public int getBestMove(Board board, String currentPlayerMarker) {
+        int bestMove = Integer.MIN_VALUE;
+        int bestScore = Integer.MIN_VALUE;
+        for (int move = 0; move < board.getCells().size(); move++) {
+            if (board.isAvailableCell(move)) {
+                Board possibleBoard = board.markCell(move, currentPlayerMarker);
+                int minimaxValue = minimaxValue(possibleBoard, opponent(currentPlayerMarker), false);
+                if (minimaxValue > bestScore) {
+                    bestScore = minimaxValue;
+                    bestMove = move;
+                }
+            }
+        }
+        return bestMove;
     }
 
-    public List<Integer> mapMinimaxValues(Board board, String currentPlayerMarker, boolean maximisingPlayer) {
+    public int minimaxValue(Board board, String currentPlayerMarker, boolean maximisingPlayer) {
+        if (isTerminal(board)) {
+            return score(board, maximisingPlayer);
+        } else if (maximisingPlayer) {
+            return max(mapMinimaxValues(board, currentPlayerMarker, maximisingPlayer));
+        } return min(mapMinimaxValues(board, currentPlayerMarker, maximisingPlayer));
+    }
+
+    private List<Integer> mapMinimaxValues(Board board, String currentPlayerMarker, boolean maximisingPlayer) {
         List<Integer> minimaxValues = new ArrayList<Integer>();
         for (int i = 0; i < findPossibleBoards(board, currentPlayerMarker).size(); i++) {
             int newValue = minimaxValue(findPossibleBoards(board, currentPlayerMarker).get(i), opponent(currentPlayerMarker), !maximisingPlayer);
@@ -19,7 +37,7 @@ public class Minimax {
         } return minimaxValues;
     }
 
-    public List<Board> findPossibleBoards(Board board, String currentPlayerMarker) {
+    private List<Board> findPossibleBoards(Board board, String currentPlayerMarker) {
         List<Board> possibleBoards = new ArrayList<Board>();
         for (int i = 0; i < board.getCells().size(); i++) {
             if (board.isAvailableCell(i)) {
@@ -29,21 +47,6 @@ public class Minimax {
         } return possibleBoards;
     }
 
-    private Integer findMinimum(List<Integer> minimaxValues) {
-        int min = 0;
-        for (int i = 0; i < minimaxValues.size(); i++) {
-            int number = minimaxValues.get(i);
-            if (number < min) min = number;
-        } return min;
-    }
-
-    private Integer findMaximum(List<Integer> minimaxValues) {
-        int max = 0;
-        for (int i = 0; i < minimaxValues.size(); i++) {
-            int number = minimaxValues.get(i);
-            if (number > max) max = number;
-        } return max;
-    }
     private int score(Board board, boolean maximisingPlayer) {
         if (board.win() && maximisingPlayer) {
             return -1;
@@ -53,12 +56,12 @@ public class Minimax {
     }
 
     private String opponent(String currentPlayerMarker) {
-        if (currentPlayerMarker == "x") {
+        if (currentPlayerMarker.equals("x")) {
             return "o";
         } return "x";
     }
 
-    private boolean terminal(Board board) {
+    private boolean isTerminal(Board board) {
         return board.win() || board.draw();
     }
 }

@@ -1,8 +1,6 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,9 +20,11 @@ public class MinimaxTest {
         assertEquals(1, minimisingResult);
     }
 
-    @Test
-    public void scoresDrawAsZero() {
-        Board drawingBoard = new Board(Arrays.asList("x", "x", "o", "o", "o", "x", "x", "x", "o"));
+    @Test public void scoresDrawAsZero() {
+        Board drawingBoard = new Board(Arrays.asList(
+                "x", "x", "o",
+                "o", "o", "x",
+                "x", "x", "o"));
         int maximisingResult = minimax.minimaxValue(drawingBoard, "o", true);
         int minimisingResult = minimax.minimaxValue(drawingBoard, "o", false);
         assertEquals(0, maximisingResult);
@@ -32,56 +32,84 @@ public class MinimaxTest {
     }
 
     @Test
-    public void scoresFutureWinAsOne() {
+    public void takesTheWinningMove() {
         Board futureWinningBoard = new Board(Arrays.asList(
                 "", "", "x",
                 "x", "x", "o",
                 "o", "o", ""));
-        int maximisingResult = minimax.minimaxValue(futureWinningBoard, "o", true);
-        int minimisingResult = minimax.minimaxValue(futureWinningBoard, "o", false);
-        assertEquals(Arrays.asList(0, 0, 1), minimax.mapMinimaxValues(futureWinningBoard, "o", true));
-        assertEquals(1, maximisingResult);
-        assertEquals(-1, minimisingResult);
+        int bestMove = minimax.getBestMove(futureWinningBoard, "o");
+        assertEquals(8, bestMove);
     }
 
-    //This test fails
     @Test
-    public void scoresFutureWinTwoMovesDownAsOne() {
+    public void takesFutureWinningMove() {
         Board futureWinningBoard = new Board(Arrays.asList(
                 "", "o", "",
                 "o", "x", "o",
                 "", "x", ""));
-        int maximisingResult = minimax.minimaxValue(futureWinningBoard, "x", true);
-        int minimisingResult = minimax.minimaxValue(futureWinningBoard, "x", false);
-        assertEquals(Arrays.asList(0, 0, 1, 1), minimax.mapMinimaxValues(futureWinningBoard, "x", true));
-        assertEquals(1, maximisingResult);
-        assertEquals(-1, minimisingResult);
+        int bestMoveForCross = minimax.getBestMove(futureWinningBoard, "x");
+        int bestMoveForNought = minimax.getBestMove(futureWinningBoard, "o");
+        assertEquals(6, bestMoveForCross);
+        assertEquals(0, bestMoveForNought);
     }
 
     @Test
-    public void returnsPossibleBoards() {
-        Board currentBoard = new Board(Arrays.asList("x", "x", "", "o", "", "o", "x", "o", "x"));
-        List<Board> possibleBoards = minimax.findPossibleBoards(currentBoard, "x");
-        Board possibleBoardOne = new Board(Arrays.asList("x", "x", "x", "o", "", "o", "x", "o", "x"));
-        Board possibleBoardTwo = new Board(Arrays.asList("x", "x", "", "o", "x", "o", "x", "o", "x"));
-        List<Board> setUpBoards = Arrays.asList(possibleBoardOne, possibleBoardTwo);
-        assertEquals(getPossibleCells(setUpBoards), getPossibleCells(possibleBoards));
-    }
-
-    private List<List<String>> getPossibleCells(List<Board> possibleBoards) {
-        List<List<String>> possibleCells = new ArrayList<List<String>>();
-        for (int i = 0; i < possibleBoards.size(); i++) {
-            possibleCells.add(possibleBoards.get(i).getCells());
-        } return possibleCells;
+    public void blocksOpponentWinAndWins() {
+        Board board = new Board(Arrays.asList(
+                "o", "o", "",
+                "", "x", "o",
+                "x", "", ""));
+        int bestMoveForCross = minimax.getBestMove(board, "x");
+        int bestMoveForNought = minimax.getBestMove(board, "o");
+        assertEquals(2, bestMoveForCross);
+        assertEquals(2, bestMoveForNought);
     }
 
     @Test
-    public void scoresAnUnwinnableBoardAsZero() {
+    public void blocksOpponentWinAndDoesNotLose() {
+        Board board = new Board(Arrays.asList(
+                "", "", "o",
+                "", "", "",
+                "x", "x", ""));
+        int bestMoveForNought = minimax.getBestMove(board, "o");
+        assertEquals(8, bestMoveForNought);
+    }
+
+    @Test
+    public void preventsOpponentFromSettingUpFutureCrossWin() {
+        Board board = new Board(Arrays.asList(
+                "", "", "",
+                "", "x", "",
+                "", "", ""));
+        int bestMoveForNought = minimax.getBestMove(board, "o");
+        assertEquals(0, bestMoveForNought);
+    }
+
+    @Test
+    public void preventsOpponentFromSettingUpSureWin() {
+        Board board = new Board(Arrays.asList(
+                "", "o", "x",
+                "", "", "",
+                "", "x", ""));
+        int bestMoveForNought = minimax.getBestMove(board, "o");
+        assertEquals(6, bestMoveForNought);
+    }
+
+    @Test
+    public void takesFirstPossibleMoveOnUnWinnableBoard() {
         Board unwinnableBoard = new Board(Arrays.asList("o", "", "", "x", "x", "o", "o", "", "x"));
-        int maximisingResult = new Minimax().minimaxValue(unwinnableBoard, "x", true);
-        int minimisingResult = new Minimax().minimaxValue(unwinnableBoard, "x", false);
+        int bestMoveForCross = minimax.getBestMove(unwinnableBoard, "x");
+        int bestMoveForNought = minimax.getBestMove(unwinnableBoard, "o");
+        assertEquals(1, bestMoveForCross);
+        assertEquals(1, bestMoveForNought);
+    }
+
+    @Test
+    public void inAnyGameOpponentsWillDraw() {
+        Board newBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
+        int maximisingResult = new Minimax().minimaxValue(newBoard, "x", true);
+        int minimisingResult = new Minimax().minimaxValue(newBoard, "x", false);
         assertEquals(0, maximisingResult);
         assertEquals(0, minimisingResult);
-
     }
 }
