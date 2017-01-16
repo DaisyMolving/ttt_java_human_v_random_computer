@@ -18,8 +18,7 @@ public class Game {
     public void playNew() {
         setUpNewGame();
         while (inProgress()) {
-            String move = requestMove();
-            board.markCell(Integer.valueOf(move) - 1, playerOne.getMarker());
+            requestMove();
             switchPlayers();
         } display.sendToTheDisplay("goodbye");
     }
@@ -31,9 +30,9 @@ public class Game {
         playerTwo = new HumanPlayer("Player 2", "o");
     }
 
-    public String requestMove() {
+    public Board requestMove() {
         display.sendToTheDisplay(messenger.setUpBoard(board));
-        return display.getResponse(messenger.askPlayerForTurnInput(playerOne.getName(), playerOne.getMarker()));
+        return Player.makeMove(board);
     }
 
     public void switchPlayers() {
