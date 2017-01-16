@@ -101,6 +101,12 @@ public class BoardTest {
     }
 
     @Test
+    public void theCaseWhishBugged() {
+        Board drawingBoard = new Board(Arrays.asList("x", "", "", "", "", "", "", "", ""));
+        assertFalse(drawingBoard.draw());
+    }
+
+    @Test
     public void recognisesANonDraw() {
         Board boardInProgress = new Board(Arrays.asList("x", "o", "x", "x", "o", "x", "", "", ""));
         assertFalse(boardInProgress.draw());

@@ -1,5 +1,3 @@
-import java.util.List;
-
 public interface Player {
     public Board makeMove(Board currentBoard);
 

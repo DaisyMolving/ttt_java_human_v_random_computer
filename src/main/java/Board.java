@@ -33,7 +33,7 @@ public class Board {
 
     public boolean isAvailableCell(int index) {
         String cell = cells.get(index);
-        return cell.isEmpty();
+        return cell.equals("");
     }
 
     public boolean win() {

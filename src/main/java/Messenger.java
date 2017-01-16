@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Messenger {
@@ -14,8 +15,8 @@ public class Messenger {
         return "That is an invalid input. Please select option a or b:\n";
     }
 
-    public String askPlayerForTurnInput(String playerNumber, String marker) {
-        return "Player " + playerNumber + ", with "+ marker + ", please select a number from 1 - 9 to mark a corresponding cell on the grid\n";
+    public String askPlayerForTurnInput(String playerName, String marker) {
+        return playerName + ", with "+ marker + ", please select a number from 1 - 9 to mark a corresponding cell on the grid\n";
     }
 
     public String invalidTurnMessage() {
@@ -30,7 +31,7 @@ public class Messenger {
         return "It's a draw!";
     }
 
-    public String setUpBoard(List<String> currentBoard){
+    public String setUpBoard(Board currentBoard){
         return formatBoard(numberBoard(currentBoard));
     }
 
@@ -52,21 +53,23 @@ public class Messenger {
         }
     }
 
-    private List<String> numberBoard(List<String> currentBoard) {
-        for (int i = 0; i < currentBoard.size(); i ++) {
-            if (currentBoard.get(i) == "") {
-                currentBoard.set(i, String.valueOf(i + 1));
+    private Board numberBoard(Board currentBoard) {
+        List<String> cells = new ArrayList<String>(currentBoard.getCells());
+        Board numberedBoard = new Board(cells);
+        for (int i = 0; i < numberedBoard.getCells().size(); i ++) {
+            if (numberedBoard.getCells().get(i) == "") {
+                numberedBoard.getCells().set(i, String.valueOf(i + 1));
             }
-        } return currentBoard;
+        } return numberedBoard;
     }
 
-    private String formatBoard(List<String> currentBoard) {
+    private String formatBoard(Board currentBoard) {
         String formattedBoard = "";
-        for (int i = 0; i < currentBoard.size(); i++) {
+        for (int i = 0; i < currentBoard.getCells().size(); i++) {
             if (endOfRow(i)) {
-                formattedBoard = formattedBoard.concat(currentBoard.get(i)).concat("\n");
+                formattedBoard = formattedBoard.concat(currentBoard.getCells().get(i)).concat("\n");
             } else {
-                formattedBoard = formattedBoard.concat(currentBoard.get(i)).concat(" ");
+                formattedBoard = formattedBoard.concat(currentBoard.getCells().get(i)).concat(" ");
             }
         } return formattedBoard;
     }
