@@ -35,24 +35,6 @@ public class Messenger {
         return formatBoard(numberBoard(currentBoard));
     }
 
-    public StatusMessagePair requestGameType(String option) {
-        if (option == "a") {
-            return new StatusMessagePair("ok", "");
-        } else if (option == "b") {
-            return new StatusMessagePair("ok", "");
-        } else {
-            return new StatusMessagePair("invalid", invalidGameTypeMessage());
-        }
-    }
-
-    public StatusMessagePair requestTurn(String option) {
-        if (option.matches("[1-9]")) {
-            return new StatusMessagePair("ok", "");
-        } else {
-            return new StatusMessagePair("invalid", invalidTurnMessage());
-        }
-    }
-
     private Board numberBoard(Board currentBoard) {
         List<String> cells = new ArrayList<String>(currentBoard.getCells());
         Board numberedBoard = new Board(cells);

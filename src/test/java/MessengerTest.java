@@ -54,20 +54,4 @@ public class MessengerTest {
         Board currentBoard = new Board(Arrays.asList("", "o", "", "", "", "", "x", "", ""));
         assertEquals("1 o 3\n4 5 6\nx 8 9\n", messenger.setUpBoard(currentBoard));
     }
-
-    @Test
-    public void thatMessengerReturnsCorrectMessagesforGameRequest() {
-        assertEquals("ok", messenger.requestGameType("a").status);
-        assertEquals("ok", messenger.requestGameType("b").status);
-        assertEquals("invalid", messenger.requestGameType("z").status);
-        assertEquals("invalid", messenger.requestGameType("-123").status);
-    }
-
-    @Test
-    public void thatMessengerReturnsCorrectMessagesforTurnRequest() {
-        assertEquals("ok", messenger.requestTurn("1").status);
-        assertEquals("ok", messenger.requestTurn("7").status);
-        assertEquals("invalid", messenger.requestTurn("11").status);
-        assertEquals("invalid", messenger.requestTurn("-123").status);
-    }
 }
