@@ -13,7 +13,6 @@ public class Game {
         this.board = board;
         this.display = display;
         this.messenger = messenger;
-        this.validator = validator;
     }
 
     public void playNew() {
