@@ -1,55 +1,29 @@
-import java.util.Arrays;
-import java.util.List;
-
 public class Game {
 
     private Board board;
     private Display display;
     private Messenger messenger;
-    public Player playerOne;
-    public Player playerTwo;
+    private Player playerOne;
+    private Player playerTwo;
 
-    public Game(Board board, Display display, Messenger messenger) {
+    public Game(Board board, Display display, Messenger messenger, Player playerOne, Player playerTwo) {
         this.board = board;
         this.display = display;
         this.messenger = messenger;
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
     }
 
-    public void playNew() {
-        setUpNewGame();
+    public void play() {
         while (inProgress()) {
             requestMove();
+            board = playerOne.makeMove(board);
             switchPlayers();
         } display.sendToTheDisplay("goodbye");
     }
 
-    public void setUpNewGame() {
-        display.sendToTheDisplay(messenger.welcomePlayers());
-        String gameType = display.getResponse(messenger.askGameType());
-        createPlayers(gameType);
-    }
-
-    public void createPlayers(String gameType) {
-        if (gameType.equals("a")) {
-            createHVHGame();
-        } else if (gameType.equals("b")) {
-            createHVCGame();
-        }
-    }
-
-    public void createHVHGame() {
-        playerOne = new HumanPlayer("Player 1", "x");
-        playerTwo = new HumanPlayer("Player 2", "o");
-    }
-
-    public void createHVCGame() {
-        playerOne = new HumanPlayer("Player 1", "x");
-        playerTwo = new RandomComputerPlayer("Player 2", "o");
-    }
-
-    public Board requestMove() {
+    public void requestMove() {
         display.sendToTheDisplay(messenger.setUpBoard(board));
-        return playerOne.makeMove(board);
     }
 
     public void switchPlayers() {
@@ -58,11 +32,11 @@ public class Game {
         playerTwo = temporaryPlayer;
     }
 
-    public boolean inProgress() {
+    private boolean inProgress() {
         return !isOver();
     }
 
-    public boolean isOver() {
+    private boolean isOver() {
         return board.draw() || board.win();
     }
 }
