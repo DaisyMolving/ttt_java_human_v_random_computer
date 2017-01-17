@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -6,29 +5,43 @@ public class Validator {
 
     private Messenger messenger = new Messenger();
 
-    public String validate(String responseToInput, String userInput) {
-        while (responseToInput != userInput) {
-            return responseToInput;
-        } return userInput;
+    private String gameTypeErrorMessage;
+    private String turnErrorMessage;
+    private Board board;
+    private Display display;
+
+    public Validator(Board board, Messenger messenger) {
+        this.messenger = messenger;
+        this.gameTypeErrorMessage = messenger.invalidGameTypeMessage();
+        this.turnErrorMessage = messenger.invalidTurnMessage();
+        this.board = board;
     }
 
-    public String validateGameType(String userInput) {
-        if (validGameType(userInput)) {
-            return userInput;
-        } return messenger.invalidGameTypeMessage();
+    public String validate(StatusMessagePair<String, String> statusMessagePair) {
+        String validResponse = "";
+        while (statusMessagePair.status.equals("error")) {
+            validResponse = display.getResponse(statusMessagePair.message);
+        }
+        return validResponse;
     }
 
-    public String validateTurn(String userInput, Board board) {
-        if (validTurn(userInput, board)) {
-            return userInput;
-        } return messenger.invalidTurnMessage();
+    public StatusMessagePair<String, String> validateGameType(String userInput) {
+        if (isGameTypeMatch(userInput)) {
+            return new StatusMessagePair<String, String>("success", userInput);
+        } return new StatusMessagePair<String, String>("invalid", gameTypeErrorMessage);
     }
 
-    private boolean validGameType(String userInput) {
+    public StatusMessagePair<String, String> validateTurn(String userInput) {
+        if (isTurnMatch(userInput)) {
+            return new StatusMessagePair<String, String>("success", userInput);
+        } return new StatusMessagePair<String, String>("invalid", turnErrorMessage);
+    }
+
+    private boolean isGameTypeMatch(String userInput) {
         return isValidMatch(userInput, "[abcd]");
     }
 
-    private boolean validTurn(String userInput, Board board) {
+    private boolean isTurnMatch(String userInput) {
         return isValidMatch(userInput, "[1-9]") &&
                 board.isAvailableCell(Integer.valueOf(userInput) - 1);
     }
