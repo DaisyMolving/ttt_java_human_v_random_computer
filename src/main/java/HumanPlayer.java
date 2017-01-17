@@ -4,6 +4,8 @@ public class HumanPlayer implements Player {
 
     private String name;
     private String marker;
+    private Display display = new CliDisplay();
+    private Messenger messenger = new Messenger();
 
     public HumanPlayer(String name, String marker) {
         this.name = name;
@@ -19,7 +21,8 @@ public class HumanPlayer implements Player {
     }
 
     public Board makeMove(Board currentBoard) {
-        return currentBoard.markCell(getCellPosition("1"), getMarker());
+        String move = display.getResponse(messenger.askPlayerForTurnInput(getName(), getMarker()));
+        return currentBoard.markCell(getCellPosition(move), getMarker());
     }
 
     public Integer getCellPosition(String cellPosition) {

@@ -6,8 +6,8 @@ public class Game {
     private Board board;
     private Display display;
     private Messenger messenger;
-    private Player playerOne;
-    private Player playerTwo;
+    public Player playerOne;
+    public Player playerTwo;
 
     public Game(Board board, Display display, Messenger messenger) {
         this.board = board;
@@ -18,26 +18,42 @@ public class Game {
     public void playNew() {
         setUpNewGame();
         while (inProgress()) {
-            String move = requestMove();
-            board.markCell(Integer.valueOf(move) - 1, playerOne.getMarker());
+            requestMove();
             switchPlayers();
         } display.sendToTheDisplay("goodbye");
     }
 
     public void setUpNewGame() {
         display.sendToTheDisplay(messenger.welcomePlayers());
-        display.sendToTheDisplay(messenger.askGameType());
+        String gameType = display.getResponse(messenger.askGameType());
+        createPlayers(gameType);
+    }
+
+    public void createPlayers(String gameType) {
+        if (gameType.equals("a")) {
+            createHVHGame();
+        } else if (gameType.equals("b")) {
+            createHVCGame();
+        }
+    }
+
+    public void createHVHGame() {
         playerOne = new HumanPlayer("Player 1", "x");
         playerTwo = new HumanPlayer("Player 2", "o");
     }
 
-    public String requestMove() {
+    public void createHVCGame() {
+        playerOne = new HumanPlayer("Player 1", "x");
+        playerTwo = new RandomComputerPlayer("Player 2", "o");
+    }
+
+    public Board requestMove() {
         display.sendToTheDisplay(messenger.setUpBoard(board));
-        return display.getResponse(messenger.askPlayerForTurnInput(playerOne.getName(), playerOne.getMarker()));
+        return playerOne.makeMove(board);
     }
 
     public void switchPlayers() {
-        HumanPlayer temporaryPlayer = new HumanPlayer(playerOne.getName(), playerOne.getMarker());
+        Player temporaryPlayer = playerOne;
         playerOne = playerTwo;
         playerTwo = temporaryPlayer;
     }
