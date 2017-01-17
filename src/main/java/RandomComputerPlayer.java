@@ -5,6 +5,8 @@ public class RandomComputerPlayer implements Player {
 
     private String marker;
     private String name;
+    private Display display = new CliDisplay();
+    private Messenger messenger = new Messenger();
 
     public RandomComputerPlayer(String name, String marker) {
         this.name = name;
@@ -20,6 +22,7 @@ public class RandomComputerPlayer implements Player {
     }
 
     public Board makeMove(Board currentBoard) {
+        display.sendToTheDisplay(messenger.askPlayerForTurnInput(getName(), getMarker()));
         int cellPosition = getCellPosition(0, 8);
         return currentBoard.markCell(cellPosition, getMarker());
     }

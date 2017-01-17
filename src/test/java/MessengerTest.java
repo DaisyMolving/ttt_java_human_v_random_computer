@@ -51,7 +51,7 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerCorrectlyFormatsCurrentBoardIntoRows() {
-        List<String> currentBoard = Arrays.asList("", "o", "", "", "", "", "x", "", "");
+        Board currentBoard = new Board(Arrays.asList("", "o", "", "", "", "", "x", "", ""));
         assertEquals("1 o 3\n4 5 6\nx 8 9\n", messenger.setUpBoard(currentBoard));
     }
 }
