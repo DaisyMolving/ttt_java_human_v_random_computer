@@ -1,9 +1,9 @@
-public class StatusMessagePair<X, Y> {
+public class StatusMessagePair {
 
-    public final X status;
-    public final Y message;
+    public String status;
+    public String message;
 
-    public StatusMessagePair(X status, Y message) {
+    public StatusMessagePair(String status, String message) {
         this.status = status;
         this.message = message;
     }

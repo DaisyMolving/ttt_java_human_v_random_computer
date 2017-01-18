@@ -28,8 +28,8 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerAsksPlayerForTurnInput() {
-        assertTrue(messenger.askPlayerForTurnInput("1", "x").contains("a number from 1 - 9"));
-        assertTrue(messenger.askPlayerForTurnInput("1", "x").contains("Player 1, with x"));
+        assertTrue(messenger.askPlayerForTurnInput("Gary", "x").contains("a number from 1 - 9"));
+        assertTrue(messenger.askPlayerForTurnInput("Player 1", "x").contains("Player 1, with x"));
     }
 
 

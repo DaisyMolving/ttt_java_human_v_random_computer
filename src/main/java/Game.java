@@ -1,10 +1,10 @@
 public class Game {
 
-    private Board board;
+    public Board board;
     private Display display;
     private Messenger messenger;
-    private Player playerOne;
-    private Player playerTwo;
+    public Player playerOne;
+    public Player playerTwo;
 
     public Game(Board board, Display display, Messenger messenger, Player playerOne, Player playerTwo) {
         this.board = board;
@@ -19,17 +19,17 @@ public class Game {
             requestMove();
             board = playerOne.makeMove(board);
             switchPlayers();
-        } display.sendToTheDisplay("goodbye");
-    }
-
-    public void requestMove() {
-        display.sendToTheDisplay(messenger.setUpBoard(board));
+        } display.sendToTheDisplay(messenger.setUpBoard(board));
     }
 
     public void switchPlayers() {
         Player temporaryPlayer = playerOne;
         playerOne = playerTwo;
         playerTwo = temporaryPlayer;
+    }
+
+    private void requestMove() {
+        display.sendToTheDisplay(messenger.setUpBoard(board));
     }
 
     private boolean inProgress() {
