@@ -29,7 +29,7 @@ public class Board {
     public Board markCell(int index, String marker) {
         Board clone = new Board(getCells());
         clone.getCells().set(index, marker);
-        return  clone;
+        return clone;
     }
 
     public boolean isAvailableCell(int index) {

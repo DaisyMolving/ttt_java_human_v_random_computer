@@ -5,12 +5,13 @@ public class RandomComputerPlayer implements Player {
 
     private String marker;
     private String name;
-    private Display display = new CliDisplay();
+    private Display display;
     private Messenger messenger = new Messenger();
 
-    public RandomComputerPlayer(String name, String marker) {
+    public RandomComputerPlayer(String name, String marker, Display display) {
         this.name = name;
         this.marker = marker;
+        this.display = display;
     }
 
     public String getMarker(){

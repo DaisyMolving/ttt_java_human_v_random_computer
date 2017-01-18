@@ -1,15 +1,14 @@
-import java.util.List;
-
 public class HumanPlayer implements Player {
 
     private String name;
     private String marker;
-    private Display display = new CliDisplay();
+    private Display display;
     private Messenger messenger = new Messenger();
 
-    public HumanPlayer(String name, String marker) {
+    public HumanPlayer(String name, String marker, Display display) {
         this.name = name;
         this.marker = marker;
+        this.display = display;
     }
 
     public String getName() {
