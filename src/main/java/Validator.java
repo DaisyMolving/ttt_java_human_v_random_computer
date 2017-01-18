@@ -17,7 +17,7 @@ public class Validator {
         this.board = board;
     }
 
-    public String validate(StatusMessagePair<String, String> statusMessagePair) {
+    public String validate(StatusMessagePair statusMessagePair) {
         String validResponse = "";
         while (statusMessagePair.status.equals("error")) {
             validResponse = display.getResponse(statusMessagePair.message);
@@ -25,16 +25,16 @@ public class Validator {
         return validResponse;
     }
 
-    public StatusMessagePair<String, String> validateGameType(String userInput) {
+    public StatusMessagePair validateGameType(String userInput) {
         if (isGameTypeMatch(userInput)) {
-            return new StatusMessagePair<String, String>("success", userInput);
-        } return new StatusMessagePair<String, String>("invalid", gameTypeErrorMessage);
+            return new StatusMessagePair("success", userInput);
+        } return new StatusMessagePair("invalid", gameTypeErrorMessage);
     }
 
-    public StatusMessagePair<String, String> validateTurn(String userInput) {
+    public StatusMessagePair validateTurn(String userInput) {
         if (isTurnMatch(userInput)) {
-            return new StatusMessagePair<String, String>("success", userInput);
-        } return new StatusMessagePair<String, String>("invalid", turnErrorMessage);
+            return new StatusMessagePair("success", userInput);
+        } return new StatusMessagePair("invalid", turnErrorMessage);
     }
 
     private boolean isGameTypeMatch(String userInput) {

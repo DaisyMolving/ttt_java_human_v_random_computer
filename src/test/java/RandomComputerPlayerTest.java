@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 public class RandomComputerPlayerTest {
 
-    private RandomComputerPlayer randomComputerPlayer = new RandomComputerPlayer("Computer", "o");
+    private RandomComputerPlayer randomComputerPlayer = new RandomComputerPlayer("Computer", "o", new CliDisplay());
 
     @Test
     public void computerSetsNameUponInitialization() {
