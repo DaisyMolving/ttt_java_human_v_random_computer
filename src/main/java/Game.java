@@ -1,6 +1,6 @@
 public class Game {
 
-    private Board board;
+    public Board board;
     private Display display;
     private Messenger messenger;
     public Player playerOne;
@@ -19,7 +19,7 @@ public class Game {
             requestMove();
             board = playerOne.makeMove(board);
             switchPlayers();
-        } display.sendToTheDisplay("goodbye");
+        } display.sendToTheDisplay(messenger.setUpBoard(board));
     }
 
     public void switchPlayers() {
