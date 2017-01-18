@@ -23,15 +23,21 @@ public class RandomComputerPlayer implements Player {
 
     public Board makeMove(Board currentBoard) {
         display.sendToTheDisplay(messenger.askPlayerForTurnInput(getName(), getMarker()));
-        int cellPosition = getCellPosition(0, 8);
+        int cellPosition = getCellPosition(currentBoard);
         return currentBoard.markCell(cellPosition, getMarker());
     }
 
-    public Integer getCellPosition(int min, int max) {
-        return generateWithinRange(min, max);
+    public Integer getCellPosition(Board currentBoard) {
+        int cellPosition = generateWithinRange(currentBoard.getCells().size());
+        while (!currentBoard.isAvailableCell(cellPosition)) {
+            cellPosition = generateWithinRange(currentBoard.getCells().size());
+        }
+        return cellPosition;
     }
 
-    private int generateWithinRange(int min, int max) {
+    private int generateWithinRange(int boardSize) {
+        int min = 0;
+        int max = boardSize - 1;
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
     }
