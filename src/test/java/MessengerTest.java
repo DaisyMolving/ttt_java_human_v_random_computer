@@ -19,6 +19,8 @@ public class MessengerTest {
     public void thatMessengerAsksUserToSelectGameType() {
         assertTrue(messenger.askGameType().contains("Human vs Human"));
         assertTrue(messenger.askGameType().contains("Human vs Random Computer"));
+        assertTrue(messenger.askGameType().contains("Human vs Unbeatable Computer"));
+        assertTrue(messenger.askGameType().contains("Unbeatable Computer vs Unbeatable Computer"));
     }
 
     @Test

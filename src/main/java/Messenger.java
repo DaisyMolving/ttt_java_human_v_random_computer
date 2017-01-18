@@ -4,11 +4,11 @@ import java.util.List;
 public class Messenger {
 
     public String welcomePlayers() {
-        return "Welcome to TicTacToe!";
+        return "\nWelcome to TicTacToe!\n\n";
     }
 
     public String askGameType() {
-        return "What sort of game would you like to play?\n\na) Human vs Human?\nOr b) Human vs Random Computer?\n";
+        return "What sort of game would you like to play?\na) Human vs Human?\nb) Human vs Random Computer?\nc) Human vs Unbeatable Computer?\nor d) Unbeatable Computer vs Unbeatable Computer?\n";
     }
 
     public String invalidGameTypeMessage() {

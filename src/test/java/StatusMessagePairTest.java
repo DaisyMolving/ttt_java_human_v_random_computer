@@ -10,5 +10,4 @@ public class StatusMessagePairTest {
         assertEquals("ok", pair.status);
         assertEquals("hello there", pair.message);
     }
-
 }
