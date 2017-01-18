@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.Random;
 
 public class RandomComputerPlayer implements Player {
@@ -36,4 +35,5 @@ public class RandomComputerPlayer implements Player {
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
     }
+
 }

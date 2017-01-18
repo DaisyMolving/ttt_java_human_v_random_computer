@@ -31,6 +31,14 @@ public class Session {
             buildGame(
                     new HumanPlayer("Player 1", "x", display),
                     new RandomComputerPlayer("Player 2", "o", display));
+        } else if (userResponse.equals("c")) {
+            buildGame(
+                    new HumanPlayer("Player 1", "x", display),
+                    new UnbeatablePlayer("Player 2", "o", display));
+        } else if (userResponse.equals("d")) {
+            buildGame(
+                    new UnbeatablePlayer("Player 1", "x", display),
+                    new UnbeatablePlayer("Player 2", "o", display));
         }
     }
 
