@@ -4,6 +4,7 @@ public class Session {
 
     private Display display;
     private Messenger messenger;
+    public PlayerCreator playerCreator = new PlayerCreator();
     public Game game;
 
     public Session(Display display, Messenger messenger) {
@@ -12,37 +13,26 @@ public class Session {
     }
 
     public void start() {
-        decideGameType();
+        display.sendToTheDisplay(messenger.welcomePlayers());
+        String userResponse = display.getResponse(messenger.askGameType());
+        createPlayersOfType(userResponse);
+        buildGame(playerCreator.playerOne, playerCreator.playerTwo);
         game.play();
     }
 
-    public void decideGameType() {
-        display.sendToTheDisplay(messenger.welcomePlayers());
-        String userResponse = display.getResponse(messenger.askGameType());
-        createGameOfType(userResponse);
-    }
-
-    public void createGameOfType(String userResponse) {
+    public void createPlayersOfType(String userResponse) {
         if (userResponse.equals("a")) {
-            buildGame(
-                    new HumanPlayer("Player 1", "x", display),
-                    new HumanPlayer("Player 2", "o", display));
+            playerCreator.createTwoHumans();
         } else if (userResponse.equals("b")){
-            buildGame(
-                    new HumanPlayer("Player 1", "x", display),
-                    new RandomComputerPlayer("Player 2", "o", display));
+            playerCreator.createHumanAndRandomComputer();
         } else if (userResponse.equals("c")) {
-            buildGame(
-                    new HumanPlayer("Player 1", "x", display),
-                    new UnbeatablePlayer("Player 2", "o", display));
+            playerCreator.createHumanAndUnbeatableComputer();
         } else if (userResponse.equals("d")) {
-            buildGame(
-                    new UnbeatablePlayer("Player 1", "x", display),
-                    new UnbeatablePlayer("Player 2", "o", display));
+            playerCreator.createTwoUnbeatableComputers();
         }
     }
 
-    private void buildGame(Player player1, Player player2) {
+    public void buildGame(Player player1, Player player2) {
         Board board = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
         this.game = new Game(board, display, messenger, player1, player2);
     }
