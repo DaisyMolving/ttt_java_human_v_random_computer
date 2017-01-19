@@ -12,7 +12,7 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerWelcomesPlayers() {
-        assertEquals("Welcome to TicTacToe!", messenger.welcomePlayers());
+        assertTrue(messenger.welcomePlayers().contains("Welcome to TicTacToe!"));
     }
 
     @Test
