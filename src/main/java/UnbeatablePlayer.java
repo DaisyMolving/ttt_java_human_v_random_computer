@@ -1,4 +1,4 @@
-public class UnbeatablePlayer implements Player {
+public class UnbeatablePlayer implements Player{
 
     private String name;
     private String marker;

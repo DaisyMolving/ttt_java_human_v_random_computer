@@ -4,23 +4,14 @@ import static org.junit.Assert.assertTrue;
 
 public class SessionTest {
 
-    private Session session = new Session(new CliDisplay(), new Messenger());
-
-    @Test
-    public void sessionCreatesPlayersBasedOnUserInput() {
-        session.createPlayersOfType("a");
-        assertTrue(session.playerCreator.playerOne instanceof HumanPlayer);
-        assertTrue(session.playerCreator.playerTwo instanceof HumanPlayer);
-        session.createPlayersOfType("d");
-        assertTrue(session.playerCreator.playerOne instanceof UnbeatablePlayer);
-        assertTrue(session.playerCreator.playerTwo instanceof UnbeatablePlayer);
-    }
+    private Session session = new Session(new CliDisplay(), new Messenger(), new PlayerCreator());
 
     @Test
     public void passesPlayersCreatedToNewGame() {
-        session.createPlayersOfType("b");
-        session.buildGame(session.playerCreator.playerOne, session.playerCreator.playerTwo);
-        assertTrue(session.game.playerOne instanceof HumanPlayer);
-        assertTrue(session.game.playerTwo instanceof RandomComputerPlayer);
+        Player playerOne = new HumanPlayer("Player One", "x", new CliDisplay());
+        Player playerTwo = new RandomComputerPlayer("Player Two", "o", new CliDisplay());
+        Game game = session.buildGame(playerOne, playerTwo);
+        assertTrue(game.playerOne instanceof HumanPlayer);
+        assertTrue(game.playerTwo instanceof RandomComputerPlayer);
     }
 }

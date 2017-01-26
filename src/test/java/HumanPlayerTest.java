@@ -15,16 +15,10 @@ public class HumanPlayerTest {
     }
 
     @Test
-    public void humanMoveGivesCellNumber() {
-        int cellIndex = humanPlayer.getCellPosition("1");
-        assertEquals(0, cellIndex);
+    public void humanPlayerMakesMove() {
+        Board emptyBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
+        Board equivalentBoard = new Board(Arrays.asList("x", "", "", "", "", "", "", "", ""));
+        Board movedOnBoard = new Board(humanPlayer.continueTryingForValidMove("1", emptyBoard).getCells());
+        assertEquals(equivalentBoard.getCells(), movedOnBoard.getCells());
     }
-//
-//    @Test
-//    public void humanPlayerMakesMove() {
-//        Board emptyBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
-//        Board equivalentBoard = new Board(Arrays.asList("x", "", "", "", "", "", "", "", ""));
-//        Board movedOnBoard = new Board(humanPlayer.makeMove(emptyBoard).getCells());
-//        assertEquals(equivalentBoard.getCells(), movedOnBoard.getCells());
-//    }
 }

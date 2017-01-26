@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class PlayerCreatorTest {
@@ -8,30 +10,30 @@ public class PlayerCreatorTest {
 
     @Test
     public void playerCreatorCreatesTwoHumanPlayers() {
-        playerCreator.createTwoHumans();
-        assertEquals(HumanPlayer.class, playerCreator.playerOne.getClass());
-        assertEquals(HumanPlayer.class, playerCreator.playerTwo.getClass());
+        List<Player> listOfPlayers = playerCreator.createTwoHumans();
+        assertEquals(HumanPlayer.class, listOfPlayers.get(0).getClass());
+        assertEquals(HumanPlayer.class, listOfPlayers.get(1).getClass());
     }
 
     @Test
     public void playerCreatorCreatesHumanPlayerAndRandomComputerPlayer() {
-        playerCreator.createHumanAndRandomComputer();
-        assertEquals(HumanPlayer.class, playerCreator.playerOne.getClass());
-        assertEquals(RandomComputerPlayer.class, playerCreator.playerTwo.getClass());
+        List<Player> listOfPlayers = playerCreator.createHumanAndRandomComputer();
+        assertEquals(HumanPlayer.class, listOfPlayers.get(0).getClass());
+        assertEquals(RandomComputerPlayer.class, listOfPlayers.get(1).getClass());
     }
 
     @Test
     public void playerCreatorCreatesHumanPlayerAndUnbeatableComputerPlayer() {
-        playerCreator.createHumanAndUnbeatableComputer();
-        assertEquals(HumanPlayer.class, playerCreator.playerOne.getClass());
-        assertEquals(UnbeatablePlayer.class, playerCreator.playerTwo.getClass());
+        List<Player> listOfPlayers = playerCreator.createHumanAndUnbeatableComputer();
+        assertEquals(HumanPlayer.class, listOfPlayers.get(0).getClass());
+        assertEquals(UnbeatablePlayer.class, listOfPlayers.get(1).getClass());
     }
 
     @Test
     public void playerCreatorCreatesTwoUnbeatableComputerPlayers() {
-        playerCreator.createTwoUnbeatableComputers();
-        assertEquals(UnbeatablePlayer.class, playerCreator.playerOne.getClass());
-        assertEquals(UnbeatablePlayer.class, playerCreator.playerTwo.getClass());
+        List<Player> listOfPlayers = playerCreator.createTwoUnbeatableComputers();
+        assertEquals(UnbeatablePlayer.class, listOfPlayers.get(0).getClass());
+        assertEquals(UnbeatablePlayer.class, listOfPlayers.get(1).getClass());
     }
 
 }

@@ -7,34 +7,33 @@ public class Board {
     private List<String> cells;
 
     public Board(List<String> cells) {
-        this.cells = new ArrayList<String>(cells);
+        this.cells = cells;
     }
 
     public List<String> getCells() {
         return cells;
     }
 
+    public boolean isAvailableCell(int index) {
+        return cells.get(index).equals("");
+    }
+
+    public boolean isPopulatedCell(int index) {
+        return !(isAvailableCell(index));
+    }
+
     public boolean boardIsEmpty() {
        for (int i = 0; i < cells.size(); i++) {
-           if (isNotEmptyCell(cells, i)) {
+           if (isPopulatedCell(i)) {
                return false;
            }
        } return true;
     }
 
-    private boolean isNotEmptyCell(List<String> currentBoard, int i) {
-        return currentBoard.get(i) != "";
-    }
-
     public Board markCell(int index, String marker) {
-        Board clone = new Board(getCells());
+        Board clone = new Board(new ArrayList<String>(getCells()));
         clone.getCells().set(index, marker);
         return clone;
-    }
-
-    public boolean isAvailableCell(int index) {
-        String cell = cells.get(index);
-        return cell.equals("");
     }
 
     public boolean win() {
