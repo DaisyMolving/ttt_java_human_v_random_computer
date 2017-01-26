@@ -1,33 +1,44 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Board {
 
+    private int dimension;
     private List<String> cells;
+
+    public Board(int dimension, List<String> cells) {
+        this.dimension = dimension;
+        this.cells = cells;
+    }
+
+    public Board(int dimension) {
+        this.dimension = dimension;
+        this.cells = giveEmptyCells(dimension);
+    }
 
     public Board(List<String> cells) {
         this.cells = cells;
+        this.dimension = (int) Math.sqrt(cells.size());
     }
 
     public List<String> getCells() {
         return cells;
     }
 
+    public boolean boardIsEmpty() {
+        for (int i = 0; i < cells.size(); i++) {
+            if (isPopulatedCell(i)) {
+                return false;
+            }
+        } return true;
+    }
+
     public boolean isAvailableCell(int index) {
         return cells.get(index).equals("");
     }
 
-    public boolean isPopulatedCell(int index) {
-        return !(isAvailableCell(index));
-    }
-
-    public boolean boardIsEmpty() {
-       for (int i = 0; i < cells.size(); i++) {
-           if (isPopulatedCell(i)) {
-               return false;
-           }
-       } return true;
+    public boolean isPopulatedCell(int i) {
+        return !isAvailableCell(i);
     }
 
     public Board markCell(int index, String marker) {
@@ -55,25 +66,104 @@ public class Board {
 
     public List<List<String>> getRows() {
         List<List<String>> rows = new ArrayList<List<String>>();
-        rows.add(getCells().subList(0, 3));
-        rows.add(getCells().subList(3, 6));
-        rows.add(getCells().subList(6, 9));
-        return rows;
+        for (int i = 0; i < getCells().size(); i++) {
+            if (beginningOfRow(i)) {
+                startNewRow(rows, i);
+            } else {
+                addToExistingRow(rows, i);
+            }
+        } return rows;
     }
 
     public List<List<String>> getColumns() {
         List<List<String>> columns = new ArrayList<List<String>>();
-        columns.add(Arrays.asList(getCells().get(0), getCells().get(3), getCells().get(6)));
-        columns.add(Arrays.asList(getCells().get(1), getCells().get(4), getCells().get(7)));
-        columns.add(Arrays.asList(getCells().get(2), getCells().get(5), getCells().get(8)));
-        return columns;
+        for (int i = 0; i < getCells().size(); i++) {
+            if (beginningOfColumn(i)) {
+                startNewColumn(columns, i);
+            } else {
+                addToExistingColumn(columns, i);
+            }
+        } return columns;
     }
 
     public List<List<String>> getDiagonals() {
         List<List<String>> diagonals = new ArrayList<List<String>>();
-        diagonals.add(Arrays.asList(getCells().get(0), getCells().get(4), getCells().get(8)));
-        diagonals.add(Arrays.asList(getCells().get(2), getCells().get(4), getCells().get(6)));
+        diagonals.add(takeForwardDiagonal(diagonals));
+        diagonals.add(takeBackwardDiagonal(diagonals));
         return diagonals;
+    }
+
+    private List<String> giveEmptyCells(int dimension) {
+        cells = new ArrayList<String>();
+        for (int i = 0; i < (squareBoard(dimension)); i++) {
+            cells.add("");
+        } return cells;
+    }
+
+    private boolean beginningOfRow(int index) {
+        return index % dimension == 0;
+    }
+
+    private List<List<String>> startNewRow(List<List<String>> rows, int index) {
+        List<String> row = new ArrayList<String>();
+        rows.add(row);
+        row.add(getCells().get(index));
+        return rows;
+    }
+
+    private List<List<String>> addToExistingRow(List<List<String>> rows, int index) {
+        rows.get(lastRow(rows)).add(getCells().get(index));
+        return rows;
+    }
+
+    private int lastRow(List<List<String>> rows) {
+        return rows.size() - 1;
+    }
+
+    private boolean beginningOfColumn(int index) {
+        return index < dimension;
+    }
+
+    private List<List<String>> startNewColumn(List<List<String>> columns, int index) {
+        List<String> column = new ArrayList<String>();
+        columns.add(column);
+        column.add(getCells().get(index));
+        return columns;
+    }
+
+    private List<List<String>> addToExistingColumn(List<List<String>> columns, int index) {
+        columns.get(index % dimension).add(getCells().get(index));
+        return columns;
+    }
+
+    private List<String> takeForwardDiagonal(List<List<String>> diagonals) {
+        List<String> diagonal = new ArrayList<String>();
+        for (int i = 0; i < getCells().size(); i++) {
+            if (belongsToForwardDiagonal(i)) {
+                diagonal.add(getCells().get(i));
+            }
+        } return diagonal;
+    }
+
+    private List<String> takeBackwardDiagonal(List<List<String>> diagonals) {
+        List<String> diagonal = new ArrayList<String>();
+        for (int i = 0; i < getCells().size(); i++) {
+            if (belongsToBackwardDiagonal(i)) {
+                diagonal.add(getCells().get(i));
+            }
+        } return diagonal;
+    }
+
+    private boolean belongsToForwardDiagonal(int index) {
+        return index % (dimension + 1) == 0;
+    }
+
+    private boolean belongsToBackwardDiagonal(int index) {
+        return (index % (dimension - 1) == 0) && (index != 0) && (index != getCells().size() - 1);
+    }
+
+    private int squareBoard(int dimension) {
+        return dimension * dimension;
     }
 
     private boolean allMarked(List<List<String>> sequences) {
@@ -82,11 +172,17 @@ public class Board {
     }
 
     private List<String> markedSequenceCross() {
-        return Arrays.asList("x", "x", "x");
+        List<String> winningCrossSequence = new ArrayList<String>();
+        for (int i = 0; i < dimension; i ++) {
+            winningCrossSequence.add("x");
+        } return winningCrossSequence;
     }
 
     private List<String> markedSequenceNought() {
-        return Arrays.asList("o", "o", "o");
+        List<String> winningNoughtSequence = new ArrayList<String>();
+        for (int i = 0; i < dimension; i ++) {
+            winningNoughtSequence.add("o");
+        } return winningNoughtSequence;
     }
 
     private List<List<String>> getSequences(){

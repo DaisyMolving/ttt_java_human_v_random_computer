@@ -16,12 +16,12 @@ public class Session {
     public void start() {
         display.sendToTheDisplay(messenger.welcomePlayers());
         List<Player> listOfPlayers = playerCreator.requestPlayerCreation();
-        Game game = buildGame(listOfPlayers.get(0), listOfPlayers.get(1));
+        Game game = buildGame(3, listOfPlayers.get(0), listOfPlayers.get(1));
         game.play();
     }
 
-    public Game buildGame(Player player1, Player player2) {
-        Board board = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
+    public Game buildGame(int dimension, Player player1, Player player2) {
+        Board board = new Board(dimension);
         return new Game(board, display, messenger, player1, player2);
     }
 
