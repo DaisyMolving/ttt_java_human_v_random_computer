@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Messenger {
@@ -7,12 +8,21 @@ public class Messenger {
         return "\nWelcome to TicTacToe!\n\n";
     }
 
-    public String askGameType() {
-        return "What sort of game would you like to play?\na) Human vs Human?\nb) Human vs Random Computer?\nc) Human vs Unbeatable Computer?\nor d) Unbeatable Computer vs Unbeatable Computer?\n";
+    public String askGameType(List<String> listOfOptions) {
+        String initialQuestion = "What sort of game would you like to play?\n";
+        String menu = "";
+        for (String option : listOfOptions) {
+            menu = menu + option + "\n";
+        }
+        return initialQuestion + menu;
     }
 
-    public String invalidGameTypeMessage() {
-        return "That is an invalid input. Please select option a or b:\n";
+    public String invalidGameTypeMessage(HashMap<String, List<Player>> responseToUserInput) {
+        String initialError =  "That is an invalid input. Please input one of these options:\n";
+        String options = "";
+        for (String key : responseToUserInput.keySet()) {
+            options = options + key + "\n";
+        } return initialError + options;
     }
 
     public String askPlayerForTurnInput(String playerName, String marker) {
@@ -20,7 +30,7 @@ public class Messenger {
     }
 
     public String invalidTurnMessage() {
-        return "That is an invalid input. Please select a number from 1 - 9 corresponding to an available cell";
+        return "That is an invalid input. Please select a number from 1 - 9 corresponding to an available cell:\n";
     }
 
     public String winnerMessage(String playerNumber) {

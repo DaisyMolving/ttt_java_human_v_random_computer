@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class RandomComputerPlayer implements Player {
+public class RandomComputerPlayer implements Player{
 
     private String marker;
     private String name;

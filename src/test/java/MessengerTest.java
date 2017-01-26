@@ -1,6 +1,9 @@
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -9,6 +12,16 @@ import static org.junit.Assert.assertTrue;
 public class MessengerTest {
 
     private Messenger messenger = new Messenger();
+    private List<String> gamePlayerOptionsMenu = new ArrayList<String>();
+    private HashMap<String, List<Player>> responseToUserInput = new HashMap();
+
+    @Before
+    public void populateGamePlayerOptionsMenu() {
+        gamePlayerOptionsMenu.add("a) Human vs Human?");
+        gamePlayerOptionsMenu.add("b) Human vs Random Computer?");
+        gamePlayerOptionsMenu.add("c) Human vs Unbeatable Computer?");
+        gamePlayerOptionsMenu.add("d) Unbeatable Computer vs Unbeatable Computer?");
+    }
 
     @Test
     public void thatMessengerWelcomesPlayers() {
@@ -17,15 +30,15 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerAsksUserToSelectGameType() {
-        assertTrue(messenger.askGameType().contains("Human vs Human"));
-        assertTrue(messenger.askGameType().contains("Human vs Random Computer"));
-        assertTrue(messenger.askGameType().contains("Human vs Unbeatable Computer"));
-        assertTrue(messenger.askGameType().contains("Unbeatable Computer vs Unbeatable Computer"));
+        assertTrue(messenger.askGameType(gamePlayerOptionsMenu).contains("Human vs Human"));
+        assertTrue(messenger.askGameType(gamePlayerOptionsMenu).contains("Human vs Random Computer"));
+        assertTrue(messenger.askGameType(gamePlayerOptionsMenu).contains("Human vs Unbeatable Computer"));
+        assertTrue(messenger.askGameType(gamePlayerOptionsMenu).contains("Unbeatable Computer vs Unbeatable Computer"));
     }
 
     @Test
     public void thatMessengerGivesInvalidMessageOfInvalidGameTypeInput() {
-        assertTrue(messenger.invalidGameTypeMessage().contains("That is an invalid input"));
+        assertTrue(messenger.invalidGameTypeMessage(responseToUserInput).contains("That is an invalid input"));
     }
 
     @Test

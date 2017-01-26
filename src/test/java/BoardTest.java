@@ -14,11 +14,6 @@ public class BoardTest {
     private Board markedBoard = new Board(Arrays.asList("x", "", "", "", "", "", "", "", ""));
 
     @Test
-    public void knowsANewBoardGridHasNineCells() {
-        assertEquals(9, emptyBoard.getCells().size());
-    }
-
-    @Test
     public void knowsANewBoardGridIsEmpty() {
         assertTrue(emptyBoard.boardIsEmpty());
     }
@@ -35,14 +30,14 @@ public class BoardTest {
 
     @Test
     public void knowsIfACellIsEmpty() {
-        assertFalse(markedBoard.isAvailableCell(0));
+        assertTrue(markedBoard.isPopulatedCell(0));
         assertTrue(markedBoard.isAvailableCell(1));
     }
 
     @Test
     public void createsNewBoardEveryTimeACellIsMarked() {
         Board clone = emptyBoard.markCell(1, "x");
-        assertFalse(clone.isAvailableCell(1) );
+        assertTrue(clone.isPopulatedCell(1) );
         assertTrue(emptyBoard.isAvailableCell(1) );
     }
 

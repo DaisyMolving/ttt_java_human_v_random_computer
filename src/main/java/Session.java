@@ -1,40 +1,28 @@
 import java.util.Arrays;
+import java.util.List;
 
 public class Session {
 
     private Display display;
     private Messenger messenger;
-    public PlayerCreator playerCreator = new PlayerCreator();
-    public Game game;
+    private PlayerCreator playerCreator;
 
-    public Session(Display display, Messenger messenger) {
+    public Session(Display display, Messenger messenger, PlayerCreator playerCreator) {
         this.display = display;
         this.messenger = messenger;
+        this.playerCreator = playerCreator;
     }
 
     public void start() {
         display.sendToTheDisplay(messenger.welcomePlayers());
-        String userResponse = display.getResponse(messenger.askGameType());
-        createPlayersOfType(userResponse);
-        buildGame(playerCreator.playerOne, playerCreator.playerTwo);
+        List<Player> listOfPlayers = playerCreator.requestPlayerCreation();
+        Game game = buildGame(listOfPlayers.get(0), listOfPlayers.get(1));
         game.play();
     }
 
-    public void createPlayersOfType(String userResponse) {
-        if (userResponse.equals("a")) {
-            playerCreator.createTwoHumans();
-        } else if (userResponse.equals("b")){
-            playerCreator.createHumanAndRandomComputer();
-        } else if (userResponse.equals("c")) {
-            playerCreator.createHumanAndUnbeatableComputer();
-        } else if (userResponse.equals("d")) {
-            playerCreator.createTwoUnbeatableComputers();
-        }
-    }
-
-    public void buildGame(Player player1, Player player2) {
+    public Game buildGame(Player player1, Player player2) {
         Board board = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
-        this.game = new Game(board, display, messenger, player1, player2);
+        return new Game(board, display, messenger, player1, player2);
     }
 
 }
