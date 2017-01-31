@@ -47,6 +47,12 @@ public class BoardTest {
     }
 
     @Test
+    public void canProduceAListOfAvailablePositions() {
+        Board boardInProgress = new Board(Arrays.asList("", "x", "o", "x", "", "x", "", "o", "o"));
+        assertEquals(Arrays.asList("1", "5", "7"), boardInProgress.giveAvailableCells());
+    }
+
+    @Test
     public void createsNewBoardEveryTimeACellIsMarked() {
         Board clone = emptyBoardOfNine.markCell(1, "x");
         assertTrue(clone.isPopulatedCell(1) );

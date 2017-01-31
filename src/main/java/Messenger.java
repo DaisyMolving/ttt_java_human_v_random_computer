@@ -25,12 +25,29 @@ public class Messenger {
         } return initialError + options;
     }
 
-    public String askPlayerForTurnInput(String playerName, String marker) {
-        return playerName + ", with "+ marker + ", please select a number from 1 - 9 to mark a corresponding cell on the grid\n";
+    public String askBoardSize(List<String> boardOptions) {
+        String initialQuestion = "What should the dimensions of the board be?\n";
+        String menu = "";
+        for (String option : boardOptions) {
+            menu = menu + option + "\n";
+        }
+        return initialQuestion + menu;
     }
 
-    public String invalidTurnMessage() {
-        return "That is an invalid input. Please select a number from 1 - 9 corresponding to an available cell:\n";
+    public String invalidBoardTypeMessage(HashMap<String, Board> responseToUserInput) {
+        String initialError =  "That is an invalid input. Please input one of these options:\n";
+        String options = "";
+        for (String key : responseToUserInput.keySet()) {
+            options = options + key + "\n";
+        } return initialError + options;
+    }
+
+    public String askPlayerForTurnInput(String playerName, String marker, int boardSize) {
+        return "\n\n" + playerName + ", with "+ marker + ", please select a number from 1 - " + boardSize + " to mark a corresponding cell on the grid\n";
+    }
+
+    public String invalidTurnMessage(int boardSize) {
+        return "That is an invalid input. Please select a number from 1 - " + boardSize + " corresponding to an available cell:\n";
     }
 
     public String winnerMessage(String playerNumber) {
@@ -58,7 +75,7 @@ public class Messenger {
     private String formatBoard(Board currentBoard) {
         String formattedBoard = "";
         for (int i = 0; i < currentBoard.getCells().size(); i++) {
-            if (endOfRow(i)) {
+            if (endOfRow(currentBoard, i)) {
                 formattedBoard = formattedBoard.concat(currentBoard.getCells().get(i)).concat("\n");
             } else {
                 formattedBoard = formattedBoard.concat(currentBoard.getCells().get(i)).concat(" ");
@@ -66,7 +83,8 @@ public class Messenger {
         } return formattedBoard;
     }
 
-    private boolean endOfRow(int index) {
-        return ((index + 1) % 3 == 0);
+    private boolean endOfRow(Board currentBoard, int index) {
+        int dimension = (int) Math.sqrt(currentBoard.getCells().size());
+        return ((index + 1) % dimension == 0);
     }
 }

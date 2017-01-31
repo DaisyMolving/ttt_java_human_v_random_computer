@@ -43,15 +43,15 @@ public class MessengerTest {
 
     @Test
     public void thatMessengerAsksPlayerForTurnInput() {
-        assertTrue(messenger.askPlayerForTurnInput("Gary", "x").contains("a number from 1 - 9"));
-        assertTrue(messenger.askPlayerForTurnInput("Player 1", "x").contains("Player 1, with x"));
+        assertTrue(messenger.askPlayerForTurnInput("Gary", "x", 9).contains("a number from 1 - 9"));
+        assertTrue(messenger.askPlayerForTurnInput("Player 1", "x", 9).contains("Player 1, with x"));
     }
 
 
     @Test
     public void thatMessengerGivesInvalidMessageForInvalidTurnInput() {
-        assertTrue(messenger.invalidTurnMessage().contains("That is an invalid input"));
-        assertTrue(messenger.invalidTurnMessage().contains("1 - 9 corresponding to an available cell"));
+        assertTrue(messenger.invalidTurnMessage(16).contains("That is an invalid input"));
+        assertTrue(messenger.invalidTurnMessage(9).contains("1 - 9 corresponding to an available cell"));
     }
 
     @Test

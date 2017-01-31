@@ -6,11 +6,6 @@ public class Board {
     private int dimension;
     private List<String> cells;
 
-    public Board(int dimension, List<String> cells) {
-        this.dimension = dimension;
-        this.cells = cells;
-    }
-
     public Board(int dimension) {
         this.dimension = dimension;
         this.cells = giveEmptyCells(dimension);
@@ -31,6 +26,15 @@ public class Board {
                 return false;
             }
         } return true;
+    }
+
+    public List<String> giveAvailableCells() {
+        List<String> availableCells = new ArrayList<String>();
+        for (int i = 0; i < cells.size(); i++) {
+            if (isAvailableCell(i)) {
+                availableCells.add(String.valueOf(i + 1));
+            }
+        } return availableCells;
     }
 
     public boolean isAvailableCell(int index) {
