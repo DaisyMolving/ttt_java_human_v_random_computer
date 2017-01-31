@@ -22,7 +22,7 @@ public class RandomComputerPlayer implements Player{
     }
 
     public Board makeMove(Board currentBoard) {
-        display.sendToTheDisplay(messenger.askPlayerForTurnInput(getName(), getMarker()));
+        display.sendToTheDisplay(messenger.askPlayerForTurnInput(getName(), getMarker(), currentBoard.getCells().size()));
         int cellPosition = getCellPosition(currentBoard);
         return currentBoard.markCell(cellPosition, getMarker());
     }

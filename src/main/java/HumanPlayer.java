@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class HumanPlayer implements Player{
 
     private String name;
@@ -21,30 +23,22 @@ public class HumanPlayer implements Player{
     }
 
     public Board makeMove(Board currentBoard) {
-        return continueTryingForValidMove(requestMoveFromHuman(), currentBoard);
+        return continueTryingForValidMove(requestMoveFromHuman(currentBoard), currentBoard);
     }
 
     public Board continueTryingForValidMove(String chosenMove, Board currentBoard) {
-        if (isChosenMoveValid(currentBoard, chosenMove)) {
+        if (validator.isExistingTurnOption(currentBoard, chosenMove)) {
             return currentBoard.markCell(getCellPosition(chosenMove), getMarker());
         }
-        return continueTryingForValidMove(requestAlternativeMove(), currentBoard);
+        return continueTryingForValidMove(requestAlternativeMove(currentBoard), currentBoard);
     }
 
-    private boolean isChosenMoveValid(Board currentBoard, String chosenMove) {
-        return validator.withinConfinesOfTheBoard(chosenMove) && currentBoard.isAvailableCell(moveToIndex(chosenMove));
+    private String requestMoveFromHuman(Board board) {
+        return display.getResponse(messenger.askPlayerForTurnInput(getName(), getMarker(), board.getCells().size()));
     }
 
-    private int moveToIndex(String chosenMove) {
-        return getCellPosition(chosenMove);
-    }
-
-    private String requestMoveFromHuman() {
-        return display.getResponse(messenger.askPlayerForTurnInput(getName(), getMarker()));
-    }
-
-    private String requestAlternativeMove() {
-        return display.getResponse(messenger.invalidTurnMessage());
+    private String requestAlternativeMove(Board board) {
+        return display.getResponse(messenger.invalidTurnMessage(board.getCells().size()));
     }
 
     private Integer getCellPosition(String cellPosition) {
