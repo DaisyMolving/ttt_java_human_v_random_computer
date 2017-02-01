@@ -22,7 +22,7 @@ public class Game {
             switchPlayers();
         } display.clearDisplay();
         display.sendToTheDisplay(messenger.setUpBoard(board));
-        displayEndResult();
+        display.sendToTheDisplay(messenger.endResultMessage(playerTwo.getName(), board));
     }
 
     public void displayEndResult() {
