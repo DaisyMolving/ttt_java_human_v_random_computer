@@ -21,7 +21,7 @@ public class UnbeatablePlayer implements Player{
     }
 
     public Board makeMove(Board board) {
-        display.sendToTheDisplay(messenger.askPlayerForTurnInput(getName(), getMarker(), board.getCells().size()));
+        display.sendToTheDisplay(messenger.setUpBoard(board));
         int cellPosition = minimax.getBestMove(board, marker);
         return board.markCell(cellPosition, getMarker());
     }

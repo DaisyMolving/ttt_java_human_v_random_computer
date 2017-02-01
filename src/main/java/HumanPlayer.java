@@ -34,7 +34,7 @@ public class HumanPlayer implements Player{
     }
 
     private String requestMoveFromHuman(Board board) {
-        return display.getResponse(messenger.askPlayerForTurnInput(getName(), getMarker(), board.getCells().size()));
+        return display.getResponse(messenger.setUpBoard(board));
     }
 
     private String requestAlternativeMove(Board board) {

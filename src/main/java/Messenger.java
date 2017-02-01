@@ -4,6 +4,10 @@ import java.util.List;
 
 public class Messenger {
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+
     public String welcomePlayers() {
         return "\nWelcome to TicTacToe!\n\n";
     }
@@ -59,7 +63,17 @@ public class Messenger {
     }
 
     public String setUpBoard(Board currentBoard){
-        return formatBoard(numberBoard(currentBoard));
+        return formatBoard(colourMarkers(numberBoard(currentBoard)));
+    }
+
+    private Board colourMarkers(Board currentBoard) {
+        for (int i = 0; i < currentBoard.getCells().size(); i++) {
+            if (currentBoard.getCells().get(i) == "x") {
+                currentBoard.getCells().set(i, ANSI_RED + "x" + ANSI_RESET);
+            } else if (currentBoard.getCells().get(i) == "o") {
+                currentBoard.getCells().set(i, ANSI_YELLOW + "o" + ANSI_RESET);
+            }
+        } return currentBoard;
     }
 
     private Board numberBoard(Board currentBoard) {

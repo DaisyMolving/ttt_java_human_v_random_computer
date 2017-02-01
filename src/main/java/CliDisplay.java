@@ -12,4 +12,8 @@ public class CliDisplay implements Display {
         return userInput.nextLine();
     }
 
+    public void clearDisplay() {
+        System.out.println("\033[H\033[2J");
+    }
+
 }

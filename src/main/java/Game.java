@@ -16,10 +16,21 @@ public class Game {
 
     public void play() {
         while (inProgress()) {
+            display.clearDisplay();
             requestMove();
             board = playerOne.makeMove(board);
             switchPlayers();
-        } display.sendToTheDisplay(messenger.setUpBoard(board));
+        } display.clearDisplay();
+        display.sendToTheDisplay(messenger.setUpBoard(board));
+        displayEndResult();
+    }
+
+    public void displayEndResult() {
+        if (board.draw()) {
+            display.sendToTheDisplay("\n\nIt's a draw!");
+        } else if (board.win()) {
+            display.sendToTheDisplay("\n\n" + playerTwo.getName() + " won!");
+        }
     }
 
     public void switchPlayers() {
@@ -29,7 +40,7 @@ public class Game {
     }
 
     private void requestMove() {
-        display.sendToTheDisplay(messenger.setUpBoard(board));
+        display.sendToTheDisplay(messenger.askPlayerForTurnInput(playerOne.getName(), playerOne.getMarker(), board.getCells().size()));
     }
 
     private boolean inProgress() {
