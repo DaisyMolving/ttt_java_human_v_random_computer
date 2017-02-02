@@ -25,14 +25,6 @@ public class Game {
         display.sendToTheDisplay(messenger.endResultMessage(playerTwo.getName(), board));
     }
 
-    public void displayEndResult() {
-        if (board.draw()) {
-            display.sendToTheDisplay("\n\nIt's a draw!");
-        } else if (board.win()) {
-            display.sendToTheDisplay("\n\n" + playerTwo.getName() + " won!");
-        }
-    }
-
     public void switchPlayers() {
         Player temporaryPlayer = playerOne;
         playerOne = playerTwo;
