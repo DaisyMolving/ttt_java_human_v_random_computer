@@ -22,15 +22,7 @@ public class Game {
             switchPlayers();
         } display.clearDisplay();
         display.sendToTheDisplay(messenger.setUpBoard(board));
-        displayEndResult();
-    }
-
-    public void displayEndResult() {
-        if (board.draw()) {
-            display.sendToTheDisplay("\n\nIt's a draw!");
-        } else if (board.win()) {
-            display.sendToTheDisplay("\n\n" + playerTwo.getName() + " won!");
-        }
+        display.sendToTheDisplay(messenger.endResultMessage(playerTwo.getName(), board));
     }
 
     public void switchPlayers() {

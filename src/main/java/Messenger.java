@@ -101,4 +101,10 @@ public class Messenger {
         int dimension = (int) Math.sqrt(currentBoard.getCells().size());
         return ((index + 1) % dimension == 0);
     }
+
+    public String endResultMessage(String winnerName, Board board) {
+        if (board.draw()) {
+            return "\n\nIt's a draw!\n\n";
+        } return "\n\n" + winnerName + " won!\n\n";
+    }
 }
