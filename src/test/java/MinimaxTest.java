@@ -14,8 +14,8 @@ public class MinimaxTest {
                 "", "", "x",
                 "o", "x", "",
                 "x", "o", ""));
-        int maximisingResult = minimax.minimaxValue(winningBoard, "o", true);
-        int minimisingResult = minimax.minimaxValue(winningBoard, "o", false);
+        int maximisingResult = minimax.alphaBeta(winningBoard, "o", Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+        int minimisingResult = minimax.alphaBeta(winningBoard, "o", Integer.MIN_VALUE, Integer.MAX_VALUE, false);
         assertEquals(-1, maximisingResult);
         assertEquals(1, minimisingResult);
     }
@@ -25,8 +25,8 @@ public class MinimaxTest {
                 "x", "x", "o",
                 "o", "o", "x",
                 "x", "x", "o"));
-        int maximisingResult = minimax.minimaxValue(drawingBoard, "o", true);
-        int minimisingResult = minimax.minimaxValue(drawingBoard, "o", false);
+        int maximisingResult = minimax.alphaBeta(drawingBoard, "o", Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+        int minimisingResult = minimax.alphaBeta(drawingBoard, "o", Integer.MIN_VALUE, Integer.MAX_VALUE, false);
         assertEquals(0, maximisingResult);
         assertEquals(0, minimisingResult);
     }
@@ -105,11 +105,20 @@ public class MinimaxTest {
     }
 
     @Test
-    public void inAnyGameOpponentsWillDraw() {
+    public void inAnyGameOpponentsWillDrawOnThreeByThree() {
         Board newBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", ""));
-        int maximisingResult = new Minimax().minimaxValue(newBoard, "x", true);
-        int minimisingResult = new Minimax().minimaxValue(newBoard, "x", false);
+        int maximisingResult = minimax.alphaBeta(newBoard, "x", Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+        int minimisingResult = minimax.alphaBeta(newBoard, "x", Integer.MIN_VALUE, Integer.MAX_VALUE, false);
         assertEquals(0, maximisingResult);
         assertEquals(0, minimisingResult);
     }
+
+//    @Test
+//    public void inAnyGameOpponentsWillDrawOnFourByFour() {
+//        Board newBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+//        int maximisingResult = minimax.alphaBeta(newBoard, "x", Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+//        int minimisingResult = minimax.alphaBeta(newBoard, "x", Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+//        assertEquals(0, maximisingResult);
+//        assertEquals(0, minimisingResult);
+//    }
 }

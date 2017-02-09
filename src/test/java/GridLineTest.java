@@ -1,20 +1,44 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class GridLineTest {
 
     GridLine gridLine = new GridLine();
-    List<String> cellsOfThirdDimension = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
-    List<String> cellsOfFourthDimension = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
+    int start;
+
+    @Before
+    public void start() {
+        start = (int) System.currentTimeMillis();
+    }
+
+    @After
+    public void end() {
+        System.out.println(System.currentTimeMillis() - start);
+    }
+
+    @Test
+    public void benchmarkForWinningLineTestWithNoWin() {
+        System.out.println("not winning line");
+        gridLine.isWinningLine(Arrays.asList("", "", "", "", "", "", "", "", ""));
+    }
+
+    @Test
+    public void benchmarkForWinningLineTestWithWin() {
+        System.out.println("winning line");
+        gridLine.isWinningLine(Arrays.asList("x", "x", "x", "", "", "", "", "", ""));
+    }
 
     @Test
     public void recognisesARowWinOfThree() {
         List<String> cells = Arrays.asList("x", "x", "x", "", "", "", "", "", "");
+        assertTrue(gridLine.isWinningLine(cells));
     }
 
     @Test
