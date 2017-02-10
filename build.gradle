@@ -16,12 +16,3 @@ dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-run {
-	standardInput = System.in
-}
-
-task hello {
-	doLast {
-		println "using build file '$buildFile.name' in '$buildFile.parentFile.name'."
-	}
-}

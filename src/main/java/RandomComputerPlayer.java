@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Random;
 
 public class RandomComputerPlayer implements Player{
@@ -29,18 +30,15 @@ public class RandomComputerPlayer implements Player{
 
 
     public Integer getCellPosition(Board currentBoard) {
-        int cellPosition = generateWithinRange(currentBoard.getCells().size());
-        while (!currentBoard.isAvailableCell(cellPosition)) {
-            cellPosition = generateWithinRange(currentBoard.getCells().size());
-        }
+        int cellPosition = takeRandomAvailableCell(currentBoard);
         return cellPosition;
     }
 
-    private int generateWithinRange(int boardSize) {
-        int min = 0;
-        int max = boardSize - 1;
-        Random rand = new Random();
-        return rand.nextInt((max - min) + 1) + min;
+    private int takeRandomAvailableCell(Board board) {
+        Random randomizer = new Random();
+        List<String> availableCells = board.giveAvailableCells();
+        String cell = availableCells.get(randomizer.nextInt(availableCells.size()));
+        return Integer.valueOf(cell) - 1;
     }
 
 }

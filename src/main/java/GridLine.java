@@ -1,139 +1,99 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GridLine {
 
-    private List<String> cells;
-
     public boolean isWinningLine(List<String> cells) {
-        this.cells = cells;
-        List<List<String>> sequences = getSequences(cells);
-        if (allMarked(sequences)) {
-            return true;
-        } else {
+        List<List<String>> lines = getLines(cells);
+        return anyWinningLines(lines);
+    }
+
+    private List<List<String>> getLines(List<String> cells) {
+        List<List<String>> lines = new ArrayList<List<String>>();
+        makeRows(lines, cells);
+        makeColumns(lines, cells);
+        makeDiagonals(lines, cells);
+        return lines;
+    }
+
+    private boolean anyWinningLines(List<List<String>> lines) {
+        for (int line = 0; line < lines.size(); line++) {
+           if (isAllSame(lines.get(line))) {
+               return true;
+           }
+        } return false;
+    }
+
+    private boolean isAllSame(List<String> line) {
+        String first = line.get(0);
+        if (first.equals("")) {
             return false;
+        }
+        for (int i = 1; i < line.size(); i++) {
+            String next = line.get(i);
+            if (!first.equals(next)) {
+                return false;
+            }
+        } return true;
+    }
+
+
+    private void makeRows(List<List<String>> lines, List<String> cells) {
+        List<String> row = new ArrayList<String>();
+        int dimension = getDimension(cells);
+
+        for (int i = 0; i < cells.size(); i++) {
+            row.add(row.size(), cells.get(i));
+
+            if (i % dimension == dimension - 1) {
+                lines.add(row);
+                row = new ArrayList<String>();
+            }
         }
     }
 
-    private boolean allMarked(List<List<String>> sequences) {
-        return (sequences.contains(markedSequenceNought()) ||
-                sequences.contains(markedSequenceCross()));
-    }
+    private void makeColumns(List<List<String>> lines, List<String> cells) {
+        for (int i = 0; i < getDimension(cells); i ++){
+            List<String> column = new ArrayList<String>();
 
-    private List<String> markedSequenceCross() {
-        List<String> winningCrossSequence = new ArrayList<String>();
-        for (int i = 0; i < getDimension(); i ++) {
-            winningCrossSequence.add("x");
-        } return winningCrossSequence;
-    }
-
-    private List<String> markedSequenceNought() {
-        List<String> winningNoughtSequence = new ArrayList<String>();
-        for (int i = 0; i < getDimension(); i ++) {
-            winningNoughtSequence.add("o");
-        } return winningNoughtSequence;
-    }
-
-    private List<List<String>> getSequences(List<String> cells){
-        List<List<String>> sequences = new ArrayList<List<String>>();
-        sequences.addAll(getRows(cells));
-        sequences.addAll(getColumns(cells));
-        sequences.addAll(getDiagonals(cells));
-        return sequences;
-    }
-
-    private List<List<String>> getRows(List<String> cells) {
-        List<List<String>> rows = new ArrayList<List<String>>();
-        for (int i = 0; i < cells.size(); i++) {
-            if (beginningOfRow(i)) {
-                startNewRow(rows, i);
-            } else {
-                addToExistingRow(rows, i);
+            for (int amount = 0; amount < getDimension(cells); amount++) {
+                column.add(cells.get(i + (getDimension(cells) * amount)));
             }
-        } return rows;
+
+            lines.add(column);
+        }
     }
 
-    private List<List<String>> getColumns(List<String> cells) {
-        List<List<String>> columns = new ArrayList<List<String>>();
+    private List<List<String>> makeDiagonals(List<List<String>> lines, List<String> cells) {
+        lines.add(takeForwardDiagonal(new LinkedList<String>(), cells));
+        lines.add(takeBackwardDiagonal(new LinkedList<String>(), cells));
+        return lines;
+    }
+
+    private List<String> takeForwardDiagonal(List<String> diagonal, List<String> cells) {
         for (int i = 0; i < cells.size(); i++) {
-            if (beginningOfColumn(i)) {
-                startNewColumn(columns, i);
-            } else {
-                addToExistingColumn(columns, i);
+            if (belongsToForwardDiagonal(cells, i)) {
+                diagonal.add(cells.get(i));
             }
-        } return columns;
+        } return diagonal;
     }
 
-    private List<List<String>> getDiagonals(List<String> cells) {
-        List<List<String>> diagonals = new ArrayList<List<String>>();
-        diagonals.add(takeForwardDiagonal(diagonals));
-        diagonals.add(takeBackwardDiagonal(diagonals));
-        return diagonals;
+    private boolean belongsToForwardDiagonal(List<String> cells, int index) {
+        return index % (getDimension(cells) + 1) == 0;
     }
 
-    private boolean beginningOfRow(int index) {
-        return index % getDimension() == 0;
+    private List<String> takeBackwardDiagonal(List<String> diagonal, List<String> cells) {
+        for (int i = 0; i < cells.size(); i++) {
+            if (belongsToBackwardDiagonal(cells, i)) {
+                diagonal.add(cells.get(i));
+            }
+        } return diagonal;
     }
 
-    private int getDimension(){
+    private boolean belongsToBackwardDiagonal(List<String> cells, int index) {
+        return (index % (getDimension(cells) - 1) == 0) && (index != 0) && (index != cells.size() - 1);
+    }
+
+    private int getDimension(List<String> cells){
         return (int) Math.sqrt(cells.size());
-    }
-
-    private List<List<String>> startNewRow(List<List<String>> rows, int index) {
-        List<String> row = new ArrayList<String>();
-        rows.add(row);
-        row.add(cells.get(index));
-        return rows;
-    }
-
-    private List<List<String>> addToExistingRow(List<List<String>> rows, int index) {
-        rows.get(lastRow(rows)).add(cells.get(index));
-        return rows;
-    }
-
-    private int lastRow(List<List<String>> rows) {
-        return rows.size() - 1;
-    }
-
-    private boolean beginningOfColumn(int index) {
-        return index < getDimension();
-    }
-
-    private List<List<String>> startNewColumn(List<List<String>> columns, int index) {
-        List<String> column = new ArrayList<String>();
-        columns.add(column);
-        column.add(cells.get(index));
-        return columns;
-    }
-
-    private List<List<String>> addToExistingColumn(List<List<String>> columns, int index) {
-        columns.get(index % getDimension()).add(cells.get(index));
-        return columns;
-    }
-
-    private List<String> takeForwardDiagonal(List<List<String>> diagonals) {
-        List<String> diagonal = new ArrayList<String>();
-        for (int i = 0; i < cells.size(); i++) {
-            if (belongsToForwardDiagonal(i)) {
-                diagonal.add(cells.get(i));
-            }
-        } return diagonal;
-    }
-
-    private boolean belongsToForwardDiagonal(int index) {
-        return index % (getDimension() + 1) == 0;
-    }
-
-    private List<String> takeBackwardDiagonal(List<List<String>> diagonals) {
-        List<String> diagonal = new ArrayList<String>();
-        for (int i = 0; i < cells.size(); i++) {
-            if (belongsToBackwardDiagonal(i)) {
-                diagonal.add(cells.get(i));
-            }
-        } return diagonal;
-    }
-
-    private boolean belongsToBackwardDiagonal(int index) {
-        return (index % (getDimension() - 1) == 0) && (index != 0) && (index != cells.size() - 1);
     }
 }
