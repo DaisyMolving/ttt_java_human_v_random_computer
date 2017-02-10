@@ -1,80 +1,72 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GridLine {
 
-    public List<List<String>> sequences = new ArrayList<List<String>>();
-
     public boolean isWinningLine(List<String> cells) {
-        if (allMarked(cells))  {
-            return true;
-        } else {
+        List<List<String>> lines = getLines(cells);
+        return anyWinningLines(lines);
+    }
+
+    private List<List<String>> getLines(List<String> cells) {
+        List<List<String>> lines = new ArrayList<List<String>>();
+        makeRows(lines, cells);
+        makeColumns(lines, cells);
+        makeDiagonals(lines, cells);
+        return lines;
+    }
+
+    private boolean anyWinningLines(List<List<String>> lines) {
+        for (int line = 0; line < lines.size(); line++) {
+           if (isAllSame(lines.get(line))) {
+               return true;
+           }
+        } return false;
+    }
+
+    private boolean isAllSame(List<String> line) {
+        String first = line.get(0);
+        if (first.equals("")) {
             return false;
         }
-    }
-
-    private boolean allMarked(List<String> cells) {
-        return (getSequences(cells).contains(markedSequenceAllSame(cells, "o")) ||
-                getSequences(cells).contains(markedSequenceAllSame(cells, "x")));
-    }
-
-    private List<List<String>> getSequences(List<String> cells) {
-        makeRows(0, new LinkedList<String>(), cells);
-        makeColumns(0, new LinkedList<String>(), cells);
-        makeDiagonals(cells);
-        return sequences;
-    }
-
-    private List<String> markedSequenceAllSame(List<String> cells, String marker) {
-        List<String> winningSequence = new ArrayList<String>();
-        for (int i = 0; i < getDimension(cells); i ++) {
-            winningSequence.add(marker);
-        } return winningSequence;
-    }
-
-    public void makeRows(int index, List<String> row, List<String> cells) {
-        if (allRowsTraversed(cells, index)) {
-            sequences.add(row);
-        } else if (isFull(row, cells)) {
-            sequences.add(row);
-            makeRows(index, new ArrayList<String>(), cells);
-        } else {
-            row.add(row.size(), cells.get(index));
-            makeRows(index + 1, row, cells);
-        }
-    }
-
-    private boolean allRowsTraversed(List<String> cells, int index) {
-        return index == cells.size();
-    }
-
-    private boolean isFull(List<String> line, List<String> cells) {
-        return line.size() == getDimension(cells);
-    }
-
-    public void makeColumns(int index, List<String> column, List<String> cells) {
-        if (allColumnsTraversed(cells, index)) {
-            sequences.add(column);
-        } else if (isFull(column, cells)) {
-            sequences.add(column);
-            makeColumns(index + 1, new ArrayList<String>(), cells);
-        } else {
-            for (int amount = 0; amount < getDimension(cells); amount++) {
-                column.add(cells.get(index + (getDimension(cells) * amount)));
+        for (int i = 1; i < line.size(); i++) {
+            String next = line.get(i);
+            if (!first.equals(next)) {
+                return false;
             }
-            makeColumns(index, column, cells);
+        } return true;
+    }
+
+
+    private void makeRows(List<List<String>> lines, List<String> cells) {
+        List<String> row = new ArrayList<String>();
+        int dimension = getDimension(cells);
+
+        for (int i = 0; i < cells.size(); i++) {
+            row.add(row.size(), cells.get(i));
+
+            if (i % dimension == dimension - 1) {
+                lines.add(row);
+                row = new ArrayList<String>();
+            }
         }
     }
 
-    private boolean allColumnsTraversed(List<String> cells, int index) {
-        return index == getDimension(cells);
+    private void makeColumns(List<List<String>> lines, List<String> cells) {
+        for (int i = 0; i < getDimension(cells); i ++){
+            List<String> column = new ArrayList<String>();
+
+            for (int amount = 0; amount < getDimension(cells); amount++) {
+                column.add(cells.get(i + (getDimension(cells) * amount)));
+            }
+
+            lines.add(column);
+        }
     }
 
-    public List<List<String>> makeDiagonals(List<String> cells) {
-        sequences.add(takeForwardDiagonal(new LinkedList<String>(), cells));
-        sequences.add(takeBackwardDiagonal(new LinkedList<String>(), cells));
-        return sequences;
+    private List<List<String>> makeDiagonals(List<List<String>> lines, List<String> cells) {
+        lines.add(takeForwardDiagonal(new LinkedList<String>(), cells));
+        lines.add(takeBackwardDiagonal(new LinkedList<String>(), cells));
+        return lines;
     }
 
     private List<String> takeForwardDiagonal(List<String> diagonal, List<String> cells) {

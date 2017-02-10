@@ -112,13 +112,4 @@ public class MinimaxTest {
         assertEquals(0, maximisingResult);
         assertEquals(0, minimisingResult);
     }
-
-//    @Test
-//    public void inAnyGameOpponentsWillDrawOnFourByFour() {
-//        Board newBoard = new Board(Arrays.asList("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
-//        int maximisingResult = minimax.alphaBeta(newBoard, "x", Integer.MIN_VALUE, Integer.MAX_VALUE, true);
-//        int minimisingResult = minimax.alphaBeta(newBoard, "x", Integer.MIN_VALUE, Integer.MAX_VALUE, false);
-//        assertEquals(0, maximisingResult);
-//        assertEquals(0, minimisingResult);
-//    }
 }
